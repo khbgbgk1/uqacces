@@ -27,32 +27,67 @@ class MainActivity : ComponentActivity() {
 
                     // Default home screen (no path)
                     composable("accueil") {
-                        Accueil(onSearchClick = { navController.navigate("recherche") })
+                        Accueil(
+                            onSearchClick = { navController.navigate("rechercheArrivee") },
+                            onSettingsClick = { navController.navigate("parametres") },
+                            onEditDepart = { /* Should not happen */ },
+                            onEditArrivee = { /* Should not happen */ }
+                        )
                     }
 
                     // Home screen with a path to display
                     composable(
                         "accueil/{startNodeName}/{endNodeName}",
                         arguments = listOf(
-                            navArgument("startNodeName") { type = NavType.StringType; nullable = true },
-                            navArgument("endNodeName") { type = NavType.StringType; nullable = true })
+                            navArgument("startNodeName") { type = NavType.StringType },
+                            navArgument("endNodeName") { type = NavType.StringType })
                     ) {
-                        val startNodeName = it.arguments?.getString("startNodeName")?.let { name -> URLDecoder.decode(name, "UTF-8") }
-                        val endNodeName = it.arguments?.getString("endNodeName")?.let { name -> URLDecoder.decode(name, "UTF-8") }
+                        val startNodeName = it.arguments?.getString("startNodeName")?.let { name -> URLDecoder.decode(name, "UTF-8") } ?: ""
+                        val endNodeName = it.arguments?.getString("endNodeName")?.let { name -> URLDecoder.decode(name, "UTF-8") } ?: ""
                         Accueil(
-                            onSearchClick = { navController.navigate("recherche") },
+                            onSearchClick = { navController.navigate("rechercheArrivee") },
+                            onSettingsClick = { navController.navigate("parametres") },
                             startNodeName = startNodeName,
-                            endNodeName = endNodeName
+                            endNodeName = endNodeName,
+                            onEditDepart = {
+                                val encodedArrivee = URLEncoder.encode(endNodeName, "UTF-8")
+                                navController.navigate("rechercheDepart/${URLEncoder.encode("", "UTF-8")}/$encodedArrivee")
+                            },
+                            onEditArrivee = {
+                                val encodedDepart = URLEncoder.encode(startNodeName, "UTF-8")
+                                // Navigate to the arrival search screen, but pass the existing departure point
+                                navController.navigate("rechercheArrivee/$encodedDepart")
+                            }
                         )
                     }
 
-                    composable("recherche") {
+                    // Route for starting a NEW search (select arrival first)
+                    composable("rechercheArrivee") {
                         PointArriveeScreen(
                             onBack = { navController.popBackStack() },
-                            onSubmit = { text ->
-                                val encoded = URLEncoder.encode(text, "UTF-8")
-                                val d = URLEncoder.encode("", "UTF-8")
-                                navController.navigate("rechercheDepart/$d/$encoded")
+                            onSubmit = { arrivee ->
+                                val encodedArrivee = URLEncoder.encode(arrivee, "UTF-8")
+                                // Go to select departure
+                                navController.navigate("rechercheDepart/${URLEncoder.encode("", "UTF-8")}/$encodedArrivee")
+                            }
+                        )
+                    }
+
+                    // Route for EDITING an arrival (departure is already known)
+                    composable(
+                        "rechercheArrivee/{depart}",
+                        arguments = listOf(navArgument("depart") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val depart = URLDecoder.decode(backStackEntry.arguments?.getString("depart").orEmpty(), "UTF-8")
+                        PointArriveeScreen(
+                            onBack = { navController.popBackStack() },
+                            onSubmit = { arrivee ->
+                                // We now have both depart and arrivee, go straight to map
+                                val encodedDepart = URLEncoder.encode(depart, "UTF-8")
+                                val encodedArrivee = URLEncoder.encode(arrivee, "UTF-8")
+                                navController.navigate("accueil/$encodedDepart/$encodedArrivee") {
+                                    popUpTo("accueil") { inclusive = true }
+                                }
                             }
                         )
                     }
@@ -69,8 +104,7 @@ class MainActivity : ComponentActivity() {
                                     val encodedDepart = URLEncoder.encode(depart, "UTF-8")
                                     val encodedArrive = URLEncoder.encode(arrive, "UTF-8")
                                     navController.navigate("accueil/$encodedDepart/$encodedArrive") {
-                                        // Clear the back stack to avoid going back to the search screens
-                                        popUpTo("accueil")
+                                        popUpTo("accueil") { inclusive = true }
                                     }
                                 }
                             }
@@ -78,11 +112,10 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("parametres") {
-                        // Assuming ParametreScreen exists and is defined elsewhere
-                        // ParametreScreen(
-                        //     vm = settingsVM,
-                        //     onBack = { navController.popBackStack() }
-                        // )
+                        ParametreScreen(
+                            vm = settingsVM,
+                            onBack = { navController.popBackStack() }   // Retour à l'itinéraire
+                        )
                     }
                 }
             }

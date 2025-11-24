@@ -2,125 +2,96 @@ package com.example.uqacces
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 
-data class SearchResult(val displayName: String, val nodeName: String)
-
-
-private fun getSearchResults(query: String, mapData: MapData, exclude: String = ""): List<SearchResult> {
-    val nodes = mapData.nodes
-    val professors = mapData.professors
-
-    if (query.isBlank()) {
-        val pois = nodes.filter { it.type != "Classe" && it.type != "Corridor" && it.name != exclude }.map { SearchResult(it.name, it.name) }
-        val profs = professors.mapNotNull { prof ->
-            val roomName = nodes.find { it.id == prof.officeNodeId }?.name ?: ""
-            if (roomName != exclude) SearchResult(prof.name, roomName) else null
-        }
-        return pois + profs
-    }
-
-    val classroomResults = nodes
-        .filter { it.type == "Classe" && it.name.replace("Classe ", "").contains(query, ignoreCase = true) && it.name != exclude }
-        .map { SearchResult(it.name.replace("Classe ", ""), it.name) }
-
-    val profResults = professors
-        .filter { it.name.contains(query, ignoreCase = true) }
-        .mapNotNull { prof ->
-            val roomName = nodes.find { it.id == prof.officeNodeId }?.name ?: ""
-            if (roomName != exclude) SearchResult("${prof.name} (${roomName.replace("Classe ", "")})", roomName) else null
-        }
-
-    val poiResults = nodes
-        .filter { it.type != "Classe" && it.type != "Corridor" && it.name.contains(query, ignoreCase = true) && it.name != exclude }
-        .map { SearchResult(it.name, it.name) }
-
-    return (profResults + classroomResults + poiResults).distinct()
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PointArriveeScreen(
     onBack: () -> Unit,
     onSubmit: (String) -> Unit
 ) {
     var query by remember { mutableStateOf("") }
-    var selectedNodeName by remember { mutableStateOf<String?>(null) }
+    var selectedTab by remember { mutableStateOf(0) } // 0: POI, 1: Profs, 2: Salles
+    val mapData = UniversityMap.data
 
-    val searchResults = getSearchResults(query, UniversityMap.data)
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Choisir l'arrivée") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Retour") } }
-            )
-        },
-        bottomBar = {
-            Surface(shadowElevation = 8.dp) {
-                Button(
-                    onClick = { selectedNodeName?.let(onSubmit) },
-                    enabled = selectedNodeName != null,
-                    modifier = Modifier.fillMaxWidth().padding(16.dp)
-                ) {
-                    Text("Suivant")
-                }
-            }
+    val submitAndNavigate = { destinationName: String ->
+        if (destinationName.isNotBlank()) {
+            onSubmit(destinationName)
         }
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding).padding(horizontal = 16.dp)) {
-            TextField(
-                value = query,
-                onValueChange = {
-                    query = it
-                    selectedNodeName = null
-                },
-                label = { Text("Rechercher un lieu, un prof...") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
-                singleLine = true
-            )
-            LazyColumn {
-                val profs = searchResults.filter { it.displayName.contains("(") || UniversityMap.data.professors.any { p -> p.name == it.displayName } }
-                val salles = searchResults.filter { it.displayName.startsWith("P1-") }
-                val pois = searchResults.filterNot { profs.contains(it) || salles.contains(it) }
+    }
 
-                if (pois.isNotEmpty()) {
-                    item { Text("Points d'intérêt", fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)) }
-                    items(pois) { result ->
-                        Text(
-                            text = result.displayName,
-                            modifier = Modifier.fillMaxWidth().clickable { query = result.displayName; selectedNodeName = result.nodeName }.padding(vertical = 12.dp)
-                        )
+    // Correctly remembered lists at the top-level of the composable
+    val pois = remember { mapData.nodes.filter { node -> node.type != "Classe" && node.type != "Corridor" } }
+    val profs = remember { mapData.professors }
+    val salles = remember { mapData.nodes.filter { node -> node.type == "Classe" } }
+
+    Scaffold(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.padding(it)) {
+            OutlinedTextField(
+                value = query,
+                onValueChange = { query = it },
+                placeholder = { Text("Votre recherche") },
+                leadingIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Retour") } },
+                singleLine = true,
+                shape = MaterialTheme.shapes.large,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = { /* Could trigger search on first result */ }),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .fillMaxWidth()
+            )
+
+            TabRow(selectedTabIndex = selectedTab) {
+                Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 }, text = { Text("Points d'intérêt") })
+                Tab(selected = selectedTab == 1, onClick = { selectedTab = 1 }, text = { Text("Professeurs") })
+                Tab(selected = selectedTab == 2, onClick = { selectedTab = 2 }, text = { Text("Salles") })
+            }
+
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                when (selectedTab) {
+                    0 -> { // Points of Interest
+                        val filteredPois = pois.filter { poi -> poi.name.contains(query, ignoreCase = true) }
+                        items(filteredPois) { poi ->
+                            ListRow(label = poi.name, onClick = { submitAndNavigate(poi.name) })
+                        }
                     }
-                }
-                if (profs.isNotEmpty()) {
-                    item { Text("Professeurs", fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)) }
-                    items(profs) { result ->
-                        Text(
-                            text = result.displayName,
-                            modifier = Modifier.fillMaxWidth().clickable { query = result.displayName; selectedNodeName = result.nodeName }.padding(vertical = 12.dp)
-                        )
+                    1 -> { // Professors
+                        val filteredProfs = profs.filter { prof -> prof.name.contains(query, ignoreCase = true) }
+                        items(filteredProfs) { prof ->
+                            val roomName = mapData.nodes.find { room -> room.id == prof.officeNodeId }?.name ?: "N/A"
+                            val roomNumber = roomName.replace("Classe ", "")
+                            ListRow(
+                                label = "${prof.name} ($roomNumber)",
+                                onClick = { submitAndNavigate(roomName) }
+                            )
+                        }
                     }
-                }
-                if (salles.isNotEmpty()) {
-                    item { Text("Salles", fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)) }
-                    items(salles) { result ->
-                        Text(
-                            text = result.displayName,
-                            modifier = Modifier.fillMaxWidth().clickable { query = result.displayName; selectedNodeName = result.nodeName }.padding(vertical = 12.dp)
-                        )
+                    2 -> { // Rooms
+                        val filteredSalles = salles.filter { salle -> salle.name.replace("Classe ", "").contains(query, ignoreCase = true) }
+                        items(filteredSalles) { salle ->
+                            ListRow(
+                                label = salle.name.replace("Classe ", ""),
+                                onClick = { submitAndNavigate(salle.name) }
+                            )
+                        }
                     }
                 }
             }
@@ -128,7 +99,6 @@ fun PointArriveeScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PointDepartScreen(
     initialDepart: String,
@@ -136,78 +106,94 @@ fun PointDepartScreen(
     onBack: () -> Unit,
     onDone: (String, String) -> Unit
 ) {
-    var departQuery by remember { mutableStateOf(initialDepart) }
-    var selectedNodeName by remember { mutableStateOf<String?>(null) }
-    
-    val searchResults = getSearchResults(departQuery, UniversityMap.data, exclude = initialArrive)
+    var query by remember { mutableStateOf(initialDepart) }
+    var selectedTab by remember { mutableStateOf(0) } // 0: POI, 1: Profs, 2: Salles
+    val mapData = UniversityMap.data
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Choisir le départ") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Retour") } }
-            )
-        },
-        bottomBar = {
-            Surface(shadowElevation = 8.dp) {
-                Button(
-                    onClick = { selectedNodeName?.let { onDone(it, initialArrive) } },
-                    enabled = selectedNodeName != null,
-                    modifier = Modifier.fillMaxWidth().padding(16.dp)
-                ) {
-                    Text("Trouver le chemin")
-                }
-            }
+    val submitAndNavigate = { departName: String ->
+        if (departName.isNotBlank()) {
+            onDone(departName, initialArrive)
         }
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding).padding(horizontal = 16.dp)) {
-            TextField(
-                value = initialArrive.replace("Classe ", ""),
-                onValueChange = {},
-                label = { Text("Point d'arrivée") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
-                readOnly = true, enabled = false
-            )
-            TextField(
-                value = departQuery,
-                onValueChange = { departQuery = it; selectedNodeName = null },
-                label = { Text("Rechercher un point de départ") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-            LazyColumn(modifier = Modifier.padding(top = 8.dp)) {
-                val profs = searchResults.filter { it.displayName.contains("(") || UniversityMap.data.professors.any { p -> p.name == it.displayName } }
-                val salles = searchResults.filter { it.displayName.startsWith("P1-") }
-                val pois = searchResults.filterNot { profs.contains(it) || salles.contains(it) }
+    }
 
-                if (pois.isNotEmpty()) {
-                    item { Text("Points d'intérêt", fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)) }
-                    items(pois) { result ->
-                        Text(
-                            text = result.displayName,
-                            modifier = Modifier.fillMaxWidth().clickable { departQuery = result.displayName; selectedNodeName = result.nodeName }.padding(vertical = 12.dp)
-                        )
+    // Correctly remembered lists, recomposed if initialArrive changes
+    val pois = remember(initialArrive) { mapData.nodes.filter { n -> n.type != "Classe" && n.type != "Corridor" && n.name != initialArrive } }
+    val profs = remember { mapData.professors }
+    val salles = remember(initialArrive) { mapData.nodes.filter { n -> n.type == "Classe" && n.name != initialArrive } }
+
+    Scaffold(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.padding(it)) {
+            OutlinedTextField(
+                value = query,
+                onValueChange = { query = it },
+                placeholder = { Text("Votre recherche") },
+                leadingIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Retour") } },
+                singleLine = true,
+                shape = MaterialTheme.shapes.large,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .fillMaxWidth()
+            )
+
+            TabRow(selectedTabIndex = selectedTab) {
+                Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 }, text = { Text("Points d'intérêt") })
+                Tab(selected = selectedTab == 1, onClick = { selectedTab = 1 }, text = { Text("Professeurs") })
+                Tab(selected = selectedTab == 2, onClick = { selectedTab = 2 }, text = { Text("Salles") })
+            }
+
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                when (selectedTab) {
+                    0 -> { // POI
+                        val filtered = pois.filter { p -> p.name.contains(query, ignoreCase = true) }
+                        items(filtered) { poi ->
+                            ListRow(label = poi.name, onClick = { submitAndNavigate(poi.name) })
+                        }
                     }
-                }
-                if (profs.isNotEmpty()) {
-                    item { Text("Professeurs", fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)) }
-                    items(profs) { result ->
-                        Text(
-                            text = result.displayName,
-                            modifier = Modifier.fillMaxWidth().clickable { departQuery = result.displayName; selectedNodeName = result.nodeName }.padding(vertical = 12.dp)
-                        )
+                    1 -> { // Professors
+                        val filtered = profs.filter { p -> p.name.contains(query, ignoreCase = true) }
+                        items(filtered) { prof ->
+                            val roomName = mapData.nodes.find { node -> node.id == prof.officeNodeId }?.name ?: "N/A"
+                            if (roomName != initialArrive) {
+                                ListRow(
+                                    label = "${prof.name} (${roomName.replace("Classe ", "")})",
+                                    onClick = { submitAndNavigate(roomName) }
+                                )
+                            }
+                        }
                     }
-                }
-                if (salles.isNotEmpty()) {
-                    item { Text("Salles", fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)) }
-                    items(salles) { result ->
-                        Text(
-                            text = result.displayName,
-                            modifier = Modifier.fillMaxWidth().clickable { departQuery = result.displayName; selectedNodeName = result.nodeName }.padding(vertical = 12.dp)
-                        )
+                    2 -> { // Rooms
+                        val filtered = salles.filter { s -> s.name.replace("Classe ", "").contains(query, ignoreCase = true) }
+                        items(filtered) { salle ->
+                            ListRow(
+                                label = salle.name.replace("Classe ", ""),
+                                onClick = { submitAndNavigate(salle.name) }
+                            )
+                        }
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun ListRow(
+    label: String,
+    leading: @Composable (() -> Unit)? = null,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(horizontal = 16.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (leading != null) {
+            leading()
+            Spacer(Modifier.width(12.dp))
+        }
+        Text(text = label, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+    }
+    Divider()
 }
