@@ -2,14 +2,6 @@ package com.example.uqacces
 
 import androidx.compose.ui.geometry.Offset
 
-/**
- * Represents a point of interest on the map, like a classroom or a service point.
- *
- * @param id A unique identifier for the node.
- * @param name The display name of the node (e.g., "Room 101").
- * @param position The coordinates of the node on the map.
- * @param type The category of the node (e.g., "Classe", "Toilettes").
- */
 data class MapNode(
     val id: String,
     val name: String,
@@ -17,33 +9,21 @@ data class MapNode(
     val type: String = "Point d'intérêt"
 )
 
-/**
- * Represents a connection (an edge) between two nodes in our map graph.
- */
 data class MapEdge(
     val startNodeId: String,
     val endNodeId: String
 )
 
-/**
- * Represents a physical wall on the map.
- */
 data class Wall(
     val start: Offset,
     val end: Offset
 )
 
-/**
- * Represents a professor, linking their name to an office (a MapNode).
- */
 data class Professor(
     val name: String,
     val officeNodeId: String
 )
 
-/**
- * A container for all the map data.
- */
 data class MapData(
     val nodes: List<MapNode>,
     val edges: List<MapEdge>,
@@ -83,19 +63,18 @@ object UniversityMap {
             MapNode("P1_2030", "P1-2030", Offset(850f, 450f), type = "Classe"),
             MapNode("P1_2080", "P1-2080", Offset(850f, 350f), type = "Classe"),
             MapNode("P1_2190", "P1-2190", Offset(850f, 250f), type = "Classe"),
-
             MapNode("P1_3030", "P1-3030", Offset(500f, 150f), type = "Classe"),
             MapNode("P1_3010", "P1-3010", Offset(850f, 150f), type = "Classe"),
 
-            MapNode("P1_4020", "P1-4020", Offset(500f, 600f), type = "Classe"),
-            MapNode("P1_4280", "P1-4280", Offset(450f, 500f), type = "Classe"),
-            MapNode("P1_4270", "P1-4270", Offset(450f, 450f), type = "Classe"),
-            MapNode("P1_5015", "P1-5015", Offset(450f, 400f), type = "Classe"),
-            MapNode("P1_4260", "P1-4260", Offset(450f, 350f), type = "Classe"),
-            MapNode("P1_4250", "P1-4250", Offset(500f, 300f), type = "Classe"),
-            MapNode("P1_4075", "P1-4075", Offset(550f, 500f), type = "Classe"),
-            MapNode("P1_4115", "P1-4115", Offset(550f, 450f), type = "Classe"),
-            MapNode("P1_4170", "P1-4170", Offset(550f, 375f), type = "Classe"),
+            MapNode("P1_4020", "P1-4020", Offset(575f, 600f), type = "Classe"),
+            MapNode("P1_4280", "P1-4280", Offset(500f, 500f), type = "Classe"),
+            MapNode("P1_4270", "P1-4270", Offset(500f, 450f), type = "Classe"),
+            MapNode("P1_5015", "P1-5015", Offset(500f, 400f), type = "Classe"),
+            MapNode("P1_4260", "P1-4260", Offset(500f, 350f), type = "Classe"),
+            MapNode("P1_4250", "P1-4250", Offset(575f, 250f), type = "Classe"),
+            MapNode("P1_4075", "P1-4075", Offset(650f, 500f), type = "Classe"),
+            MapNode("P1_4115", "P1-4115", Offset(650f, 450f), type = "Classe"),
+            MapNode("P1_4170", "P1-4170", Offset(650f, 375f), type = "Classe"),
 
             MapNode("P1_5130", "P1-5130", Offset(100f, 450f), type = "Classe"),
             MapNode("P1_5120", "P1-5120", Offset(100f, 400f), type = "Classe"),
@@ -109,7 +88,6 @@ object UniversityMap {
             MapNode("P1_5030", "P1-5030", Offset(250f, 150f), type = "Classe"),
             MapNode("P1_5010", "P1-5010", Offset(250f, 200f), type = "Classe"),
             MapNode("P1_5000", "P1-5000", Offset(350f, 200f), type = "Classe"),
-
             MapNode("P1_6280", "P1-6280", Offset(175f, 700f), type = "Classe"),
             MapNode("P1_6160", "P1-6160", Offset(175f, 610f), type = "Classe"),
             MapNode("P1_6150", "P1-6150", Offset(175f, 520f), type = "Classe"),
@@ -125,7 +103,6 @@ object UniversityMap {
             MapNode("P1_6140", "P1-6140", Offset(350f, 485f), type = "Classe"),
             MapNode("P1_6170", "P1-6170", Offset(350f, 565f), type = "Classe"),
             MapNode("P1_6180", "P1-6180", Offset(350f, 650f), type = "Classe"),
-
             MapNode("P1_7140", "P1-7140", Offset(100f, 500f), type = "Classe"),
             MapNode("P1_7130", "P1-7130", Offset(100f, 550f), type = "Classe"),
             MapNode("P1_7120", "P1-7120", Offset(100f, 625f), type = "Classe"),
@@ -138,6 +115,7 @@ object UniversityMap {
             MapNode("P1_7010", "P1-7010", Offset(300f, 850f), type = "Classe"),
             MapNode("P1_7000", "P1-7000", Offset(350f, 850f), type = "Classe")
         ),
+        //pas les bonnes classes, à voir avec les étages
         professors = listOf(
             Professor("Alice Leroi", "P1_6080"),
             Professor("Bob Martin", "P1_4075"),
@@ -145,11 +123,7 @@ object UniversityMap {
             Professor("David Gagnon", "P1_7120")
         ),
         edges = listOf(
-            // Connect POIs to corridors
-            MapEdge("TOILETTES_BLOC_2", "C_BLOC2_MILIEU"), MapEdge("C_BLOC2_MILIEU", "TOILETTES_BLOC_2"),
             MapEdge("ASCENSEUR_CENTRAL", "C_CENTRAL"), MapEdge("C_CENTRAL", "ASCENSEUR_CENTRAL"),
-
-            // Main corridor graph
             MapEdge("ENTREE_OUEST", "C_OUEST_JONCTION"), MapEdge("C_OUEST_JONCTION", "ENTREE_OUEST"),
             MapEdge("C_OUEST_JONCTION", "C_BLOC5_HAUT"), MapEdge("C_BLOC5_HAUT", "C_OUEST_JONCTION"),
             MapEdge("C_BLOC5_HAUT", "C_BLOC5_OUEST"), MapEdge("C_BLOC5_OUEST", "C_BLOC5_HAUT"),
@@ -167,21 +141,13 @@ object UniversityMap {
             MapEdge("C_BLOC3_HAUT", "C_BLOC2_MILIEU"), MapEdge("C_BLOC2_MILIEU", "C_BLOC3_HAUT"),
             MapEdge("C_BLOC2_MILIEU", "C_BLOC1_BAS"), MapEdge("C_BLOC1_BAS", "C_BLOC2_MILIEU"),
             MapEdge("C_BLOC1_BAS", "C_EST_JONCTION"), MapEdge("C_EST_JONCTION", "C_BLOC1_BAS"),
-
-            // BLOC 1 Connections
             MapEdge("C_BLOC1_BAS", "P1_1050"), MapEdge("P1_1050", "C_BLOC1_BAS"),
             MapEdge("C_BLOC1_BAS", "P1_1020"), MapEdge("P1_1020", "C_BLOC1_BAS"),
-
-            // BLOC 2 Connections
             MapEdge("C_BLOC2_MILIEU", "P1_2030"), MapEdge("P1_2030", "C_BLOC2_MILIEU"),
             MapEdge("C_BLOC2_MILIEU", "P1_2080"), MapEdge("P1_2080", "C_BLOC2_MILIEU"),
             MapEdge("C_BLOC2_MILIEU", "P1_2190"), MapEdge("P1_2190", "C_BLOC2_MILIEU"),
-
-            // BLOC 3 Connections
             MapEdge("C_BLOC3_HAUT", "P1_3030"), MapEdge("P1_3030", "C_BLOC3_HAUT"),
             MapEdge("C_BLOC3_HAUT", "P1_3010"), MapEdge("P1_3010", "C_BLOC3_HAUT"),
-
-            // BLOC 4 Connections
             MapEdge("C_BLOC4_HAUT", "P1_4250"), MapEdge("P1_4250", "C_BLOC4_HAUT"),
             MapEdge("C_BLOC4_HAUT", "P1_4260"), MapEdge("P1_4260", "C_BLOC4_HAUT"),
             MapEdge("C_BLOC4_HAUT", "P1_5015"), MapEdge("P1_5015", "C_BLOC4_HAUT"),
@@ -191,8 +157,6 @@ object UniversityMap {
             MapEdge("C_CENTRAL", "P1_4115"), MapEdge("P1_4115", "C_CENTRAL"),
             MapEdge("C_CENTRAL", "P1_4075"), MapEdge("P1_4075", "C_CENTRAL"),
             MapEdge("C_CENTRAL", "P1_4020"), MapEdge("P1_4020", "C_CENTRAL"),
-
-            // BLOC 5 Connections
             MapEdge("C_BLOC5_OUEST", "P1_5070"), MapEdge("P1_5070", "C_BLOC5_OUEST"),
             MapEdge("C_BLOC5_OUEST", "P1_5080"), MapEdge("P1_5080", "C_BLOC5_OUEST"),
             MapEdge("C_BLOC5_OUEST", "P1_5090"), MapEdge("P1_5090", "C_BLOC5_OUEST"),
@@ -205,8 +169,6 @@ object UniversityMap {
             MapEdge("C_BLOC5_HAUT", "P1_5030"), MapEdge("P1_5030", "C_BLOC5_HAUT"),
             MapEdge("C_BLOC5_HAUT", "P1_5010"), MapEdge("P1_5010", "C_BLOC5_HAUT"),
             MapEdge("C_BLOC5_HAUT", "P1_5000"), MapEdge("P1_5000", "C_BLOC5_HAUT"),
-
-            // BLOC 6 Connections
             MapEdge("C_BLOC6_HAUT", "P1_6380"), MapEdge("P1_6380", "C_BLOC6_HAUT"),
             MapEdge("C_BLOC6_HAUT", "P1_6350"), MapEdge("P1_6350", "C_BLOC6_HAUT"),
             MapEdge("C_BLOC6_HAUT", "P1_6040"), MapEdge("P1_6040", "C_BLOC6_HAUT"),
@@ -222,8 +184,6 @@ object UniversityMap {
             MapEdge("C_BLOC6_BAS", "P1_6140"), MapEdge("P1_6140", "C_BLOC6_BAS"),
             MapEdge("C_BLOC6_BAS", "P1_6170"), MapEdge("P1_6170", "C_BLOC6_BAS"),
             MapEdge("C_BLOC6_BAS", "P1_6180"), MapEdge("P1_6180", "C_BLOC6_BAS"),
-
-            // BLOC 7 Connections
             MapEdge("C_BLOC7_OUEST", "P1_7140"), MapEdge("P1_7140", "C_BLOC7_OUEST"),
             MapEdge("C_BLOC7_OUEST", "P1_7130"), MapEdge("P1_7130", "C_BLOC7_OUEST"),
             MapEdge("C_BLOC7_OUEST", "P1_7120"), MapEdge("P1_7120", "C_BLOC7_OUEST"),
@@ -237,41 +197,55 @@ object UniversityMap {
             MapEdge("C_BLOC7_BAS", "P1_7000"), MapEdge("P1_7000", "C_BLOC7_BAS")
         ),
         walls = listOf(
-            // Corridor walls based on the map layout
-            Wall(Offset(80f, 130f), Offset(80f, 900f)),      // Far-left vertical
-            Wall(Offset(120f, 130f), Offset(120f, 480f)),    // Inner-left vertical (top part)
-            Wall(Offset(120f, 480f), Offset(200f, 480f)),    // ---
-            Wall(Offset(200f, 480f), Offset(200f, 800f)),
-            Wall(Offset(200f, 800f), Offset(400f, 800f)),
-            Wall(Offset(400f, 800f), Offset(400f, 880f)),
-            Wall(Offset(80f, 900f), Offset(400f, 900f)),     // Bottom horizontal
+            // BLOC 1 fait
+            Wall(Offset(630f, 720f), Offset(900f, 720f)),
+            Wall(Offset(630f, 780f), Offset(900f, 780f)),
+            Wall(Offset(630f, 720f), Offset(630f, 780f)),
+            Wall(Offset(900f, 720f), Offset(900f, 780f)),
 
-            Wall(Offset(120f, 130f), Offset(430f, 130f)),    // Top horizontal
-            Wall(Offset(430f, 130f), Offset(430f, 180f)),
-            Wall(Offset(430f, 180f), Offset(470f, 180f)),
-            Wall(Offset(470f, 130f), Offset(920f, 130f)),
-            Wall(Offset(920f, 130f), Offset(920f, 230f)),
-            Wall(Offset(940f, 230f), Offset(940f, 520f)),
-            Wall(Offset(920f, 520f), Offset(920f, 880f)),
-            Wall(Offset(920f, 880f), Offset(650f, 880f)),
-            Wall(Offset(650f, 880f), Offset(650f, 820f)),
-            Wall(Offset(400f, 880f), Offset(580f, 880f)),
+            // BLOC 2 fait
+            Wall(Offset(820f, 220f), Offset(900f, 220f)), //haut horizontal
+            Wall(Offset(820f, 650f), Offset(900f, 650f)), //bas horizontal
+            Wall(Offset(820f, 220f), Offset(820f, 650f)), //vertical gauche
+            Wall(Offset(900f, 220f), Offset(900f, 650f)), //vertical droit
+            // BLOC 3 fait
+            Wall(Offset(480f, 130f), Offset(900f, 130f)),
+            Wall(Offset(480f, 180f), Offset(900f, 180f)),
+            Wall(Offset(480f, 130f), Offset(480f, 180f)),
+            Wall(Offset(900f, 130f), Offset(900f, 180f)),
 
-            // Internal Corridors
-            Wall(Offset(330f, 180f), Offset(330f, 830f)),
-            Wall(Offset(370f, 180f), Offset(370f, 830f)),
+            // BLOC 4
+            //modif avec couloirs
+            Wall(Offset(480f, 280f), Offset(680f, 280f)),
+            Wall(Offset(480f, 670f), Offset(680f, 670f)),
+            Wall(Offset(480f, 280f), Offset(480f, 670f)),
+            Wall(Offset(680f, 280f), Offset(680f, 670f)),
 
-            Wall(Offset(370f, 230f), Offset(680f, 230f)),
-            Wall(Offset(370f, 270f), Offset(680f, 270f)),
+            // BLOC 5 & 7
+            Wall(Offset(80f, 110f), Offset(380f, 110f)),
+            Wall(Offset(380f, 110f), Offset(380f, 240f)),
+            Wall(Offset(270f, 240f), Offset(380f, 240f)),
+            Wall(Offset(270f, 210f), Offset(270f, 240f)),
+            Wall(Offset(120f, 210f), Offset(270f, 210f)),
+            Wall(Offset(120f, 210f), Offset(120f, 750f)), // vertical intérieure
+            Wall(Offset(120f, 750f), Offset(270f, 750f)),
+            Wall(Offset(270f, 720f), Offset(270f, 750f)),
+            Wall(Offset(270f, 720f), Offset(380f, 720f)),
+            Wall(Offset(380f, 720f), Offset(380f, 870f)),
+            Wall(Offset(80f, 870f), Offset(380f, 870f)),
+            Wall(Offset(80f, 110f), Offset(80f, 870f)),
 
-            Wall(Offset(530f, 270f), Offset(530f, 730f)),
-            Wall(Offset(570f, 270f), Offset(570f, 730f)),
+            // BLOC 6 fait
+            Wall(Offset(150f, 230f), Offset(250f, 230f)),//haut horizontal
+            Wall(Offset(250f, 230f), Offset(250f, 270f)),
+            Wall(Offset(250f, 270f), Offset(380f, 270f)), //modif avec couloir
+            Wall(Offset(380f, 270f), Offset(380f, 690f)), //vertical droit
+            Wall(Offset(250f, 690f), Offset(380f, 690f)),
+            Wall(Offset(250f, 690f), Offset(250f, 730f)),
+            Wall(Offset(150f, 730f), Offset(250f, 730f)), //bas horizontal
+            Wall(Offset(150f, 230f), Offset(150f, 730f)), //pas modif
 
-            Wall(Offset(570f, 430f), Offset(680f, 430f)),
-            Wall(Offset(570f, 470f), Offset(680f, 470f)),
 
-            Wall(Offset(680f, 270f), Offset(680f, 730f)),
-            Wall(Offset(720f, 270f), Offset(720f, 730f))
         )
     )
 }
