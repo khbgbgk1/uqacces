@@ -6,7 +6,7 @@ data class MapNode(
     val id: String,
     val name: String,
     val position: Offset,
-    val type: String = "Point d'intérêt"
+    val type: String = ""
 )
 
 data class MapEdge(
@@ -24,11 +24,17 @@ data class Professor(
     val officeNodeId: String
 )
 
+data class PointOfInterest(
+    val name: String,
+    val officeNodeId: String
+)
+
 data class MapData(
     val nodes: List<MapNode>,
     val edges: List<MapEdge>,
     val walls: List<Wall>,
-    val professors: List<Professor>
+    val professors: List<Professor>,
+    val poi :List<PointOfInterest>
 )
 
 object UniversityMap {
@@ -246,6 +252,7 @@ object UniversityMap {
             Wall(Offset(150f, 230f), Offset(150f, 730f)), //pas modif
 
 
-        )
+        ),
+        poi = listOf(),
     )
 }
