@@ -7,12 +7,14 @@ data class MapNode(
     val id: String,
     val name: String,
     val position: Offset,
-    val type: String = ""
+    val type: String = "",
+    val waitDurationSeconds: Int = 0 //Pour estimer potentiellememt une attente
 )
 
 data class MapEdge(
     val startNodeId: String,
-    val endNodeId: String
+    val endNodeId: String,
+    val weight: Float = 1.0f // en seconde
 )
 
 data class Wall(

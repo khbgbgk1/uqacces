@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
@@ -104,7 +105,13 @@ fun Accueil(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .then(gestureModifier)      // applique les gestes
+                    .then(gestureModifier) // applique les gestes
+                    .graphicsLayer(
+                        scaleX = 1f,
+                        scaleY = 1f,
+                        translationX = 0f,
+                        translationY = 200f
+                    )
             ) {
 //                Image(
 //                    painter = painterResource(id = R.drawable.plan_1),
