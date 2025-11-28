@@ -1,5 +1,6 @@
 package com.example.uqacces
 
+import androidx.annotation.DrawableRes
 import androidx.compose.ui.geometry.Offset
 
 data class MapNode(
@@ -37,7 +38,22 @@ data class MapData(
     val poi :List<PointOfInterest>
 )
 
+
+data class MapBackground(
+    @DrawableRes val resourceId: Int, // L'ID de la ressource (R.drawable.plan_1)
+    val width: Float, // Largeur réelle de l'image si connue
+    val height: Float // Hauteur réelle de l'image si connue
+)
+
 object UniversityMap {
+
+    val background = MapBackground(
+    resourceId = R.drawable.plan_1,
+    // Ces valeurs (1000f, 1000f par exemple) sont CRUCIALES.
+    // Elles définissent la taille du plan original par rapport à vos coordonnées (450f, 100f).
+    width = 1000f,
+    height = 1000f
+    )
     val data = MapData(
         nodes = listOf(
             // Entrances & POIs
