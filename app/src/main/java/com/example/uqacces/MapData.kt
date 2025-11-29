@@ -194,12 +194,11 @@ object UniversityMap {
             MapNode("P1_7130", "P1-7130", Offset(117f, 625f), type = "Classe"),
             MapNode("P1_7140", "P1-7140", Offset(117f, 613f), type = "Classe"),
         ),
-        //pas les bonnes classes, à voir avec les étages
         professors = listOf(
-            Professor("Alice Leroi", "P1_6080"),
-            Professor("Bob Martin", "P1_4075"),
-            Professor("Claire Durand", "P1_2030"),
-            Professor("David Gagnon", "P1_7120")
+            Professor("Marie-Alix Autet", "P1_4080"),
+            Professor("Johanne Truchon", "P1_4072"),
+            Professor("Jessica Lapierre", "P1_2020"),
+            Professor("Nathalia Matte", "P1_4050")
         ),
         //refaire les edges
         //voir si on peut rajouter une valeur (correspond au temps)
@@ -329,6 +328,13 @@ object UniversityMap {
 
 
         ),
-        poi = listOf(),
+        poi = listOf(
+            PointOfInterest("école de langue française et de culture quebecoise, centre du savoir sur mesure", "P1_2000"),
+            PointOfInterest ("Service des ressources financières", "P1-1080"),
+            PointOfInterest ("Bureau du registraire", "P1-1050"),
+            PointOfInterest ("Centre de référence le cube", "P1-4020"),
+            PointOfInterest ("Location de casier", "P1-1045"),
+
+            ),
     )
 }
