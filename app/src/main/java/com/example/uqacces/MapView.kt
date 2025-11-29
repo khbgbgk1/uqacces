@@ -37,7 +37,7 @@ fun MapView(
     heading: Float,
     debugNodes: Boolean = false,
 ) {
-    var scale by remember { mutableStateOf(1f) }
+    var scale by remember { mutableStateOf(2.5f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
     val nodesById = remember(mapData.nodes) { mapData.nodes.associateBy { it.id } }
     val textMeasurer = rememberTextMeasurer()
@@ -50,35 +50,40 @@ fun MapView(
             .fillMaxSize()
             .pointerInput(Unit) {
                 detectTransformGestures { centroid, pan, zoom, _ ->
-                    scale = (scale * zoom).coerceIn(0.5f, 5f)
-                    offset += pan
+                    val oldScale = scale
+                    scale = (scale * zoom).coerceIn(1f, 5f)
+
+                    // Ajuster l'offset pour zoomer vers le point touché
+                    val scaleChange = scale / oldScale
+                    offset = (offset + centroid) * scaleChange - centroid + pan
                 }
             }
     ) {
         val canvasCenter = center
+        val mapCenter = Offset(imageSize.width / 2, imageSize.height / 2)
 
         withTransform({
-            // 1. Translate to center of screen (pivot point)
+            // 1. Se déplacer au centre du canvas
             translate(left = canvasCenter.x, top = canvasCenter.y)
 
-            // 2. Apply rotation around this point
+            // 2. Appliquer la rotation autour de ce point
             rotate(degrees = -heading)
 
-            // 3. Apply scale around this point
+            // 3. Appliquer le zoom
             scale(scale, scale)
 
-            // 4. Apply user pan offset
-            translate(left = offset.x / scale, top = offset.y / scale)
+            // 4. Appliquer le déplacement utilisateur
+            translate(left = offset.x, top = offset.y)
 
-            // 5. Translate back so map center aligns with screen center
-            translate(left = -imageSize.width / 2, top = -imageSize.height / 2)
+            // 5. Centrer la map (position initiale)
+            translate(left = -mapCenter.x, top = -mapCenter.y)
         }) {
-            // Draw background
+            // Dessiner le fond
             with(backgroundPainter) {
                 draw(size = imageSize)
             }
 
-            // Draw nodes
+            // Dessiner les nœuds en mode debug
             if (debugNodes) {
                 mapData.nodes.forEach { node ->
                     val color = when {
@@ -92,13 +97,13 @@ fun MapView(
 
                     drawCircle(
                         color = color,
-                        radius = 6f,
+                        radius = 6f / scale, // Ajuster la taille avec le zoom
                         center = node.position
                     )
                 }
             }
 
-            // Draw path
+            // Dessiner le chemin
             if (pathNodeIds.size > 1) {
                 for (i in 0 until pathNodeIds.size - 1) {
                     val startNode = nodesById[pathNodeIds[i]]
@@ -108,8 +113,8 @@ fun MapView(
                             color = Color.Blue,
                             start = startNode.position,
                             end = endNode.position,
-                            strokeWidth = 5f,
-                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f, 10f), 0f)
+                            strokeWidth = 5f / scale, // Ajuster l'épaisseur avec le zoom
+                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f / scale, 10f / scale), 0f)
                         )
                     }
                 }
