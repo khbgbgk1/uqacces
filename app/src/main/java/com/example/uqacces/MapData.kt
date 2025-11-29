@@ -180,17 +180,19 @@ object UniversityMap {
 //            MapNode("P1_6170", "P1-6170", Offset(350f, 565f), type = "Classe"),
 //            MapNode("P1_6180", "P1-6180", Offset(350f, 650f), type = "Classe"),
 
-//            MapNode("P1_7140", "P1-7140", Offset(100f, 500f), type = "Classe"),
-//            MapNode("P1_7130", "P1-7130", Offset(100f, 550f), type = "Classe"),
-//            MapNode("P1_7120", "P1-7120", Offset(100f, 625f), type = "Classe"),
-//            MapNode("P1_7110", "P1-7110", Offset(100f, 700f), type = "Classe"),
-//            MapNode("P1_7100", "P1-7100", Offset(100f, 775f), type = "Classe"),
-//            MapNode("P1_7090", "P1-7090", Offset(100f, 850f), type = "Classe"),
-//            MapNode("P1_7080", "P1-7080", Offset(150f, 850f), type = "Classe"),
-//            MapNode("P1_7070", "P1-7070", Offset(200f, 850f), type = "Classe"),
-//            MapNode("P1_7060", "P1-7060", Offset(250f, 850f), type = "Classe"),
-//            MapNode("P1_7010", "P1-7010", Offset(300f, 850f), type = "Classe"),
-//            MapNode("P1_7000", "P1-7000", Offset(350f, 850f), type = "Classe")
+
+            MapNode("P1_7000", "P1-7000", Offset(356f, 760f), type = "Classe"),
+            MapNode("P1_7010", "P1-7010", Offset(292f, 760f), type = "Classe"),
+            MapNode("P1_7050", "P1-7050", Offset(270f, 850f), type = "Sortie de secours"),
+            MapNode("P1_7060", "P1-7060", Offset(221f, 794f), type = "Classe"),
+            MapNode("P1_7070", "P1-7070", Offset(167f, 794f), type = "Classe"),
+            MapNode("P1_7070", "P1-7080", Offset(150f, 794f), type = "Classe"),
+            MapNode("P1_7090", "P1-7090", Offset(122f, 794f), type = "Classe"),
+            MapNode("P1_7100", "P1-7100", Offset(117f, 794f), type = "Local"),
+            MapNode("P1_7110", "P1-7110", Offset(117f, 732f), type = "Classe"),
+            MapNode("P1_7120", "P1-7120", Offset(117f, 680f), type = "Classe"),
+            MapNode("P1_7130", "P1-7130", Offset(117f, 625f), type = "Classe"),
+            MapNode("P1_7140", "P1-7140", Offset(117f, 613f), type = "Classe"),
         ),
         //pas les bonnes classes, à voir avec les étages
         professors = listOf(
