@@ -94,6 +94,22 @@ fun MapView(
                         )
                     }
 
+                    else if(node.type.startsWith("Ascenseur", ignoreCase = true)) {
+                        drawCircle(
+                            color = Color.Green,
+                            radius = 6f,
+                            center = node.position
+                        )
+                    }
+
+                    else if(node.type.startsWith("Escalier", ignoreCase = true)) {
+                        drawCircle(
+                            color = Color.Cyan,
+                            radius = 6f,
+                            center = node.position
+                        )
+                    }
+
                     else {
                         // For corridors, entrances, etc., just draw a small circle
                         drawCircle(

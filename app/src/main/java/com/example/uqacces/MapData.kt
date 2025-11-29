@@ -60,11 +60,10 @@ object UniversityMap {
         nodes = listOf(
             // Entrances & POIs
             MapNode("ENTREE_OUEST", "Hall d'entrée Ouest", Offset(460f, 250f)),
+            MapNode("ENTREE_NORDD_OUEST", "Entree residence", Offset(920f, 370f)),
+            MapNode("ENTREE_NORDD_EST", "Entree Rio Tinto", Offset(920f, 720f)),
             MapNode("ENTREE_EST", "Entrée Est", Offset(460f, 830f)),
             MapNode("ACCEUIL", "ACCEUIL", Offset(468f, 760f)),
-            //MapNode("VESTIBULE_EST", "Vestibule Est", Offset(600f, 800f)),
-//            MapNode("TOILETTES_BLOC_2", "Toilettes Bloc 2", Offset(850f, 500f), type = "Toilettes"),
-//            MapNode("ASCENSEUR_CENTRAL", "Ascenseur", Offset(500f, 450f), type = "Ascenseur"),
 //
 //            // Main Corridor Nodes
 //            MapNode("C_OUEST_JONCTION", "Corridor", Offset(450f, 200f)),
@@ -80,6 +79,14 @@ object UniversityMap {
 //            MapNode("C_BLOC3_HAUT", "Corridor", Offset(700f, 250f)),
 //            MapNode("C_BLOC2_MILIEU", "Corridor", Offset(700f, 450f)),
 //            MapNode("C_BLOC1_BAS", "Corridor", Offset(700f, 700f)),
+
+
+
+            //escaliers
+            MapNode("Escalier_p1_4_OUEST", "Escalier_p1_4_OUEST", Offset(490f, 380f), type = "Escalier"),
+            MapNode("Escalier_p1_4_EST", "Escalier_p1_4_EST", Offset(490f, 712f), type = "Escalier"),
+            //Ascenseur
+            MapNode("Ascenseur_p1_4", "Ascenseur_p1_4", Offset(760f, 555f), type = "Ascenseur"),
 //
 //            // Classrooms (by BLOC)
             MapNode("P1_1020", "P1-1020", Offset(525f, 730f), type = "Classe"),
@@ -99,31 +106,64 @@ object UniversityMap {
             MapNode("P1_2090", "P1-2090", Offset(765f, 413f), type = "Classe"),
             MapNode("P1_2110", "P1-2110", Offset(765f, 393f), type = "Classe"),
 
-//            MapNode("P1_3030", "P1-3030", Offset(500f, 150f), type = "Classe"),
-//            MapNode("P1_3010", "P1-3010", Offset(850f, 150f), type = "Classe"),
-//
-//            MapNode("P1_4020", "P1-4020", Offset(575f, 600f), type = "Classe"),
-//            MapNode("P1_4280", "P1-4280", Offset(500f, 500f), type = "Classe"),
-//            MapNode("P1_4270", "P1-4270", Offset(500f, 450f), type = "Classe"),
-//            MapNode("P1_5015", "P1-5015", Offset(500f, 400f), type = "Classe"),
-//            MapNode("P1_4260", "P1-4260", Offset(500f, 350f), type = "Classe"),
-//            MapNode("P1_4250", "P1-4250", Offset(575f, 250f), type = "Classe"),
-//            MapNode("P1_4075", "P1-4075", Offset(650f, 500f), type = "Classe"),
-//            MapNode("P1_4115", "P1-4115", Offset(650f, 450f), type = "Classe"),
-//            MapNode("P1_4170", "P1-4170", Offset(650f, 375f), type = "Classe"),
-//
-//            MapNode("P1_5130", "P1-5130", Offset(100f, 450f), type = "Classe"),
-//            MapNode("P1_5120", "P1-5120", Offset(100f, 400f), type = "Classe"),
-//            MapNode("P1_5110", "P1-5110", Offset(100f, 350f), type = "Classe"),
-//            MapNode("P1_5100", "P1-5100", Offset(100f, 300f), type = "Classe"),
-//            MapNode("P1_5090", "P1-5090", Offset(100f, 250f), type = "Classe"),
-//            MapNode("P1_5080", "P1-5080", Offset(100f, 200f), type = "Classe"),
-//            MapNode("P1_5070", "P1-5070", Offset(100f, 150f), type = "Classe"),
-//            MapNode("P1_5060", "P1-5060", Offset(150f, 150f), type = "Classe"),
-//            MapNode("P1_5050", "P1-5050", Offset(200f, 150f), type = "Classe"),
-//            MapNode("P1_5030", "P1-5030", Offset(250f, 150f), type = "Classe"),
-//            MapNode("P1_5010", "P1-5010", Offset(250f, 200f), type = "Classe"),
-//            MapNode("P1_5000", "P1-5000", Offset(350f, 200f), type = "Classe"),
+
+            MapNode("P1_3005", "P1-3005", Offset(813f, 370f), type = "Classe"),
+            MapNode("P1_3010", "P1-3010", Offset(792f, 370f), type = "Classe"),
+            MapNode("P1_3030", "P1-3030", Offset(556f, 370f), type = "Classe"),
+
+
+            MapNode("P1_4020", "P1-4020", Offset(636f, 712f), type = "Classe"),
+            MapNode("P1_4030", "P1-4030", Offset(698f, 712f), type = "Classe"),
+            MapNode("P1_4035", "P1-4035", Offset(710f, 712f), type = "Classe"),
+            MapNode("P1_4040", "P1-4040", Offset(760f, 700f), type = "Classe"),
+            MapNode("P1_4050", "P1-4050", Offset(760f, 677f), type = "Classe"),
+            MapNode("P1_4060", "P1-4060", Offset(760f, 665f), type = "Classe"),
+            MapNode("P1_4070", "P1-4070", Offset(760f, 648f), type = "Classe"),
+            MapNode("P1_4071", "P1-4071", Offset(716f, 620f), type = "Classe"),
+            MapNode("P1_4072", "P1-4072", Offset(675f, 620f), type = "Classe"),
+            MapNode("P1_4073", "P1-4073", Offset(656f, 612f), type = "Classe"),
+            MapNode("P1_4075", "P1-4075", Offset(711f, 620f), type = "Classe"),
+            MapNode("P1_4080", "P1-4080", Offset(725f, 620f), type = "Classe"),
+            MapNode("P1_4090", "P1-4090", Offset(760f, 525f), type = "Classe"),
+            MapNode("P1_4110", "P1-4110", Offset(718f, 510f), type = "Classe"),
+            MapNode("P1_4112", "P1-4112", Offset(680f, 510f), type = "Classe"),
+            MapNode("P1_4115", "P1-4115", Offset(658f, 510f), type = "Classe"),
+            MapNode("P1_4120", "P1-4120", Offset(760f, 491f), type = "Classe"),
+            MapNode("P1_4130", "P1-4130", Offset(760f, 478f), type = "Classe"),
+            MapNode("P1_4140", "P1-4140", Offset(711f, 456f), type = "Classe"),
+            MapNode("P1_4150", "P1-4150", Offset(708f, 456f), type = "Classe"),
+            MapNode("P1_4160", "P1-4160", Offset(690f, 456f), type = "Classe"),
+            MapNode("P1_4165", "P1-4165", Offset(682f, 456f), type = "Classe"),
+            MapNode("P1_4170", "P1-4170", Offset(672f, 456f), type = "Classe"),
+            MapNode("P1_4180", "P1-4180", Offset(760f, 445f), type = "Classe"),
+            MapNode("P1_4190", "P1-4190", Offset(760f, 408f), type = "Classe"),
+            MapNode("P1_4200", "P1-4200", Offset(760f, 393f), type = "Classe"),
+            MapNode("P1_4205", "P1-4205", Offset(695f, 380f), type = "Classe"),
+            MapNode("P1_4210", "P1-4210", Offset(680f, 400f), type = "Classe"),
+            MapNode("P1_4220", "P1-4220", Offset(658f, 405f), type = "Classe"),
+            MapNode("P1_4230", "P1-4230", Offset(645f, 405f), type = "Classe"),
+            MapNode("P1_4240", "P1-4240", Offset(614f, 380f), type = "Classe"),
+            MapNode("P1_4250", "P1-4250", Offset(559f, 380f), type = "Classe"),
+            MapNode("P1_4260", "P1-4260", Offset(440f, 480f), type = "Local securité"),
+            MapNode("P1_4270", "P1-4270", Offset(440f, 520f), type = "Classe"),
+            MapNode("P1_4280", "P1-4280", Offset(440f, 585f), type = "Classe"),
+
+
+            MapNode("P1_5000", "P1-5000", Offset(360f, 335f), type = "Classe"),
+            MapNode("P1_5010", "P1-5010", Offset(305f, 335f), type = "Classe"),
+            MapNode("P1_5020", "P1-5020", Offset(270f, 312f), type = "Classe"),
+            MapNode("P1_5030", "P1-5030", Offset(290f, 273f), type = "Classe"),
+            MapNode("P1_5040", "P1-5040", Offset(290f, 235f), type = "Sortie de secours"),
+            MapNode("P1_5050", "P1-5050", Offset(222f, 295f), type = "Classe"),
+            MapNode("P1_5060", "P1-5060", Offset(205f, 295f), type = "Classe"),
+            MapNode("P1_5070", "P1-5070", Offset(135f, 295f), type = "Classe"),
+            MapNode("P1_5080", "P1-5080", Offset(117f, 295f), type = "Classe"),
+            MapNode("P1_5090", "P1-5090", Offset(117f, 327f), type = "Classe"),
+            MapNode("P1_5100", "P1-5100", Offset(117f, 414f), type = "Classe"),
+            MapNode("P1_5110", "P1-5110", Offset(117f, 426f), type = "Classe"),
+            MapNode("P1_5120", "P1-5120", Offset(117f, 479f), type = "Classe"),
+            MapNode("P1_5130", "P1-5130", Offset(117f, 532f), type = "Classe"),
+
 //            MapNode("P1_6280", "P1-6280", Offset(175f, 700f), type = "Classe"),
 //            MapNode("P1_6160", "P1-6160", Offset(175f, 610f), type = "Classe"),
 //            MapNode("P1_6150", "P1-6150", Offset(175f, 520f), type = "Classe"),
@@ -139,6 +179,7 @@ object UniversityMap {
 //            MapNode("P1_6140", "P1-6140", Offset(350f, 485f), type = "Classe"),
 //            MapNode("P1_6170", "P1-6170", Offset(350f, 565f), type = "Classe"),
 //            MapNode("P1_6180", "P1-6180", Offset(350f, 650f), type = "Classe"),
+
 //            MapNode("P1_7140", "P1-7140", Offset(100f, 500f), type = "Classe"),
 //            MapNode("P1_7130", "P1-7130", Offset(100f, 550f), type = "Classe"),
 //            MapNode("P1_7120", "P1-7120", Offset(100f, 625f), type = "Classe"),
