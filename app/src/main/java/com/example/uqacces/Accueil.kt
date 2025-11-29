@@ -31,6 +31,7 @@ fun Accueil(
 ) {
     val context = LocalContext.current
     val universityMapData = UniversityMap.data
+    val heading by rememberCompassHeading()
 
     val path = if (startNodeName != null && endNodeName != null) {
         remember(universityMapData, startNodeName, endNodeName) {
@@ -87,6 +88,7 @@ fun Accueil(
             MapView(
                 mapData = universityMapData,
                 pathNodeIds = path,
+                heading = heading,
                 modifier = Modifier.fillMaxSize()
             )
 
@@ -149,6 +151,8 @@ fun Accueil(
                     }
                 }
             }
+            
+            CompassView(heading = heading, modifier = Modifier.align(Alignment.BottomEnd))
         }
     }
 }

@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.input.pointer.pointerInput
@@ -22,12 +23,14 @@ import androidx.compose.ui.unit.sp
  * @param mapData The data for the map to be rendered.
  * @param modifier A modifier to be applied to the canvas.
  * @param pathNodeIds The list of node IDs representing the path to draw.
+ * @param heading The current compass heading, used to rotate the map.
  */
 @Composable
 fun MapView(
     mapData: MapData,
     modifier: Modifier = Modifier,
-    pathNodeIds: List<String> = emptyList()
+    pathNodeIds: List<String> = emptyList(),
+    heading: Float
 ) {
     var scale by remember { mutableStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
@@ -47,6 +50,8 @@ fun MapView(
         withTransform({
             translate(left = offset.x, top = offset.y)
             scale(scale, scale)
+            // Rotate the entire canvas around its center based on the compass heading
+            rotate(degrees = -heading, pivot = center)
         }) {
             // Draw walls
             mapData.walls.forEach { wall ->
@@ -60,10 +65,10 @@ fun MapView(
 
             // Draw nodes
             mapData.nodes.forEach { node ->
-                if (node.name.startsWith("Classe", ignoreCase = true)) {
+                if (node.type == "Classe") {
                     drawText(
                         textMeasurer = textMeasurer,
-                        text = node.name,
+                        text = node.name.replace("Classe ", ""),
                         topLeft = Offset(node.position.x + 10, node.position.y - 30),
                         style = TextStyle(
                             color = Color.Black,
@@ -75,8 +80,8 @@ fun MapView(
                         radius = 4f,
                         center = node.position
                     )
-                } else {
-                    // For corridors, entrances, etc., just draw a small circle
+                } else if (node.type != "Corridor") {
+                    // For POIs, etc., just draw a small circle
                     drawCircle(
                         color = Color.Gray,
                         radius = 6f,

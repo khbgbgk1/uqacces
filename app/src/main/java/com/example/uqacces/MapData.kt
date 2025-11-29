@@ -122,6 +122,8 @@ object UniversityMap {
             Professor("Claire Durand", "P1_2030"),
             Professor("David Gagnon", "P1_7120")
         ),
+        //refaire les edges
+        //voir si on peut rajouter une valeur (correspond au temps)
         edges = listOf(
             MapEdge("ASCENSEUR_CENTRAL", "C_CENTRAL"), MapEdge("C_CENTRAL", "ASCENSEUR_CENTRAL"),
             MapEdge("ENTREE_OUEST", "C_OUEST_JONCTION"), MapEdge("C_OUEST_JONCTION", "ENTREE_OUEST"),
@@ -197,18 +199,18 @@ object UniversityMap {
             MapEdge("C_BLOC7_BAS", "P1_7000"), MapEdge("P1_7000", "C_BLOC7_BAS")
         ),
         walls = listOf(
-            // BLOC 1 fait
+            // BLOC 1
             Wall(Offset(630f, 720f), Offset(900f, 720f)),
             Wall(Offset(630f, 780f), Offset(900f, 780f)),
             Wall(Offset(630f, 720f), Offset(630f, 780f)),
             Wall(Offset(900f, 720f), Offset(900f, 780f)),
 
-            // BLOC 2 fait
+            // BLOC 2
             Wall(Offset(820f, 220f), Offset(900f, 220f)), //haut horizontal
             Wall(Offset(820f, 650f), Offset(900f, 650f)), //bas horizontal
             Wall(Offset(820f, 220f), Offset(820f, 650f)), //vertical gauche
             Wall(Offset(900f, 220f), Offset(900f, 650f)), //vertical droit
-            // BLOC 3 fait
+            // BLOC 3
             Wall(Offset(480f, 130f), Offset(900f, 130f)),
             Wall(Offset(480f, 180f), Offset(900f, 180f)),
             Wall(Offset(480f, 130f), Offset(480f, 180f)),
@@ -235,17 +237,16 @@ object UniversityMap {
             Wall(Offset(80f, 870f), Offset(380f, 870f)),
             Wall(Offset(80f, 110f), Offset(80f, 870f)),
 
-            // BLOC 6 fait
+            // BLOC 6
             Wall(Offset(150f, 230f), Offset(250f, 230f)),//haut horizontal
             Wall(Offset(250f, 230f), Offset(250f, 270f)),
+
             Wall(Offset(250f, 270f), Offset(380f, 270f)), //modif avec couloir
             Wall(Offset(380f, 270f), Offset(380f, 690f)), //vertical droit
             Wall(Offset(250f, 690f), Offset(380f, 690f)),
             Wall(Offset(250f, 690f), Offset(250f, 730f)),
             Wall(Offset(150f, 730f), Offset(250f, 730f)), //bas horizontal
             Wall(Offset(150f, 230f), Offset(150f, 730f)), //pas modif
-
-
         )
     )
 }
