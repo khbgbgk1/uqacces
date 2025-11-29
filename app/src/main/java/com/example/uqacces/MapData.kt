@@ -61,7 +61,7 @@ object UniversityMap {
             // Entrances & POIs
             MapNode("ENTREE_OUEST", "Hall d'entrée Ouest", Offset(460f, 250f)),
             MapNode("ENTREE_EST", "Entrée Est", Offset(460f, 830f)),
-//            MapNode("VESTIBULE_EST", "Vestibule Est", Offset(600f, 800f)),
+            //MapNode("VESTIBULE_EST", "Vestibule Est", Offset(600f, 800f)),
 //            MapNode("TOILETTES_BLOC_2", "Toilettes Bloc 2", Offset(850f, 500f), type = "Toilettes"),
 //            MapNode("ASCENSEUR_CENTRAL", "Ascenseur", Offset(500f, 450f), type = "Ascenseur"),
 //
@@ -81,12 +81,13 @@ object UniversityMap {
 //            MapNode("C_BLOC1_BAS", "Corridor", Offset(700f, 700f)),
 //
 //            // Classrooms (by BLOC)
-//            MapNode("P1_1050", "P1-1050", Offset(750f, 750f), type = "Classe"),
-//            MapNode("P1_1020", "P1-1020", Offset(650f, 750f), type = "Classe"),
-//
-//            MapNode("P1_2030", "P1-2030", Offset(850f, 450f), type = "Classe"),
-//            MapNode("P1_2080", "P1-2080", Offset(850f, 350f), type = "Classe"),
+            MapNode("P1_1050", "P1-1050", Offset(698f, 720f), type = "Classe"),
+            MapNode("P1_1020", "P1-1020", Offset(525f, 730f), type = "Classe"),
+
+           //MapNode("P1_2030", "P1-2030", Offset(850f, 450f), type = "Classe"),
+            MapNode("P1_2080", "P1-2080", Offset(765f, 445f), type = "Classe"),
 //            MapNode("P1_2190", "P1-2190", Offset(850f, 250f), type = "Classe"),
+
 //            MapNode("P1_3030", "P1-3030", Offset(500f, 150f), type = "Classe"),
 //            MapNode("P1_3010", "P1-3010", Offset(850f, 150f), type = "Classe"),
 //
