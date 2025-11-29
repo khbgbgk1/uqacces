@@ -71,22 +71,30 @@ fun MapView(
             // Draw nodes
             if (debugNodes) {
                 mapData.nodes.forEach { node ->
-                    if (node.name.startsWith("Classe", ignoreCase = true)) {
-                        drawText(
-                            textMeasurer = textMeasurer,
-                            text = node.name,
-                            topLeft = Offset(node.position.x + 10, node.position.y - 30),
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 12.sp / scale // Adjust font size with zoom
-                            )
-                        )
+                    if (node.type.startsWith("Classe", ignoreCase = true)) {
+//                        drawText(
+//                            textMeasurer = textMeasurer,
+//                            text = node.name,
+//                            topLeft = Offset(node.position.x + 10, node.position.y - 30),
+//                            style = TextStyle(
+//                                color = Color.Black,
+//                                fontSize = 12.sp / scale // Adjust font size with zoom
+//                            )
+//                        )
                         drawCircle(
                             color = Color.Yellow,
                             radius = 6f,
                             center = node.position
                         )
-                    } else {
+                    } else if(node.type.startsWith("Corridor", ignoreCase = true)) {
+                        drawCircle(
+                            color = Color.Magenta,
+                            radius = 6f,
+                            center = node.position
+                        )
+                    }
+
+                    else {
                         // For corridors, entrances, etc., just draw a small circle
                         drawCircle(
                             color = Color.Red,

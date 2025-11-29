@@ -61,6 +61,7 @@ object UniversityMap {
             // Entrances & POIs
             MapNode("ENTREE_OUEST", "Hall d'entrée Ouest", Offset(460f, 250f)),
             MapNode("ENTREE_EST", "Entrée Est", Offset(460f, 830f)),
+            MapNode("ACCEUIL", "ACCEUIL", Offset(468f, 760f)),
             //MapNode("VESTIBULE_EST", "Vestibule Est", Offset(600f, 800f)),
 //            MapNode("TOILETTES_BLOC_2", "Toilettes Bloc 2", Offset(850f, 500f), type = "Toilettes"),
 //            MapNode("ASCENSEUR_CENTRAL", "Ascenseur", Offset(500f, 450f), type = "Ascenseur"),
@@ -81,12 +82,22 @@ object UniversityMap {
 //            MapNode("C_BLOC1_BAS", "Corridor", Offset(700f, 700f)),
 //
 //            // Classrooms (by BLOC)
-            MapNode("P1_1050", "P1-1050", Offset(698f, 720f), type = "Classe"),
             MapNode("P1_1020", "P1-1020", Offset(525f, 730f), type = "Classe"),
+            MapNode("P1_1040", "P1-1040", Offset(580f, 730f), type = "Classe"),
+            MapNode("P1_1045", "P1-1045", Offset(625f, 720f), type = "Classe"),
+            MapNode("P1_1050", "P1-1050", Offset(698f, 720f), type = "Classe"),
+            MapNode("P1_1080", "P1-1080", Offset(840f, 750f), type = "Classe"),
 
-           //MapNode("P1_2030", "P1-2030", Offset(850f, 450f), type = "Classe"),
+
+            MapNode("P1_2000", "P1-2000", Offset(845f, 705f), type = "Classe"),
+            MapNode("P1_2010", "P1-2010", Offset(768f, 700f), type = "Classe"),
+            MapNode("P1_2020", "P1-2020", Offset(765f, 641f), type = "Classe"),
+            MapNode("P1_2030", "P1-2030", Offset(765f, 585f), type = "Classe"),
+            MapNode("P1_2060", "P1-2060", Offset(770f, 572f), type = "Toillette Homme"),
+            MapNode("P1_2070", "P1-2070", Offset(770f, 548f), type = "Toillette Femmes"),
             MapNode("P1_2080", "P1-2080", Offset(765f, 445f), type = "Classe"),
-//            MapNode("P1_2190", "P1-2190", Offset(850f, 250f), type = "Classe"),
+            MapNode("P1_2090", "P1-2090", Offset(765f, 413f), type = "Classe"),
+            MapNode("P1_2110", "P1-2110", Offset(765f, 393f), type = "Classe"),
 
 //            MapNode("P1_3030", "P1-3030", Offset(500f, 150f), type = "Classe"),
 //            MapNode("P1_3010", "P1-3010", Offset(850f, 150f), type = "Classe"),
