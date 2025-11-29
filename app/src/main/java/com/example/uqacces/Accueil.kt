@@ -96,7 +96,7 @@ fun Accueil(
                 pathNodeIds = path,
                 debugNodes = debug,
                 heading = heading,
-                modifier = Modifier.fillMaxSize() 
+                modifier = Modifier.fillMaxSize()
             )
 
             if (startNodeName == null || endNodeName == null) {

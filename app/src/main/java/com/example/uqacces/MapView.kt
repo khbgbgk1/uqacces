@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
@@ -48,107 +49,68 @@ fun MapView(
         modifier = modifier
             .fillMaxSize()
             .pointerInput(Unit) {
-                detectTransformGestures { _, pan, zoom, _ ->
-                    scale = (scale * zoom).coerceIn(0.5f, 5f) // Clamp scale
+                detectTransformGestures { centroid, pan, zoom, _ ->
+                    scale = (scale * zoom).coerceIn(0.5f, 5f)
                     offset += pan
                 }
             }
-    ) { 
+    ) {
+        val canvasCenter = center
+
         withTransform({
-            // Apply pan and zoom to the entire canvas
-            translate(left = offset.x, top = offset.y)
-            scale(scale, scale, pivot = center) 
+            // 1. Translate to center of screen (pivot point)
+            translate(left = canvasCenter.x, top = canvasCenter.y)
+
+            // 2. Apply rotation around this point
+            rotate(degrees = -heading)
+
+            // 3. Apply scale around this point
+            scale(scale, scale)
+
+            // 4. Apply user pan offset
+            translate(left = offset.x / scale, top = offset.y / scale)
+
+            // 5. Translate back so map center aligns with screen center
+            translate(left = -imageSize.width / 2, top = -imageSize.height / 2)
         }) {
-            // Rotate only the map content, not the entire canvas
-            rotate(degrees = -heading, pivot = center) {
-                with(backgroundPainter) {
-                   draw(size = imageSize) // Dessine l'image en utilisant les dimensions définies dans MapBackground
-                }
-                // Draw walls
-    //            mapData.walls.forEach { wall ->
-    //                drawLine(
-    //                    color = Color.Black,
-    //                    start = wall.start,
-    //                    end = wall.end,
-    //                    strokeWidth = 2f
-    //                )
-    //            }
-    
-                // Draw nodes
-                if (debugNodes) {
-                    mapData.nodes.forEach { node ->
-                        if (node.type.startsWith("Classe", ignoreCase = true)) {
-    //                        drawText(
-    //                            textMeasurer = textMeasurer,
-    //                            text = node.name,
-    //                            topLeft = Offset(node.position.x + 10, node.position.y - 30),
-    //                            style = TextStyle(
-    //                                color = Color.Black,
-    //                                fontSize = 12.sp / scale // Adjust font size with zoom
-    //                            )
-    //                        )
-                            drawCircle(
-                                color = Color.Yellow,
-                                radius = 6f,
-                                center = node.position
-                            )
-                        } else if(node.type.startsWith("Corridor", ignoreCase = true)) {
-                            drawCircle(
-                                color = Color.Magenta,
-                                radius = 6f,
-                                center = node.position
-                            )
-                        }
-    
-                        else if(node.type.startsWith("Ascenseur", ignoreCase = true)) {
-                            drawCircle(
-                                color = Color.Green,
-                                radius = 6f,
-                                center = node.position
-                            )
-                        }
-    
-                        else if(node.type.startsWith("Escalier", ignoreCase = true)) {
-                            drawCircle(
-                                color = Color.Cyan,
-                                radius = 6f,
-                                center = node.position
-                            )
-                        }
-    
-                        else if(node.type.startsWith("Secours", ignoreCase = true)) {
-                            drawCircle(
-                                color = Color.Black,
-                                radius = 6f,
-                                center = node.position
-                            )
-                        }
-    
-                        else {
-                            // For corridors, entrances, etc., just draw a small circle
-                            drawCircle(
-                                color = Color.Red,
-                                radius = 6f,
-                                center = node.position
-                            )
-                        }
+            // Draw background
+            with(backgroundPainter) {
+                draw(size = imageSize)
+            }
+
+            // Draw nodes
+            if (debugNodes) {
+                mapData.nodes.forEach { node ->
+                    val color = when {
+                        node.type.startsWith("Classe", ignoreCase = true) -> Color.Yellow
+                        node.type.startsWith("Corridor", ignoreCase = true) -> Color.Magenta
+                        node.type.startsWith("Ascenseur", ignoreCase = true) -> Color.Green
+                        node.type.startsWith("Escalier", ignoreCase = true) -> Color.Cyan
+                        node.type.startsWith("Secours", ignoreCase = true) -> Color.Black
+                        else -> Color.Red
                     }
+
+                    drawCircle(
+                        color = color,
+                        radius = 6f,
+                        center = node.position
+                    )
                 }
-    
-                // Draw path
-                if (pathNodeIds.size > 1) {
-                    for (i in 0 until pathNodeIds.size - 1) {
-                        val startNode = nodesById[pathNodeIds[i]]
-                        val endNode = nodesById[pathNodeIds[i + 1]]
-                        if (startNode != null && endNode != null) {
-                            drawLine(
-                                color = Color.Blue,
-                                start = startNode.position,
-                                end = endNode.position,
-                                strokeWidth = 5f,
-                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f, 10f), 0f)
-                            )
-                        }
+            }
+
+            // Draw path
+            if (pathNodeIds.size > 1) {
+                for (i in 0 until pathNodeIds.size - 1) {
+                    val startNode = nodesById[pathNodeIds[i]]
+                    val endNode = nodesById[pathNodeIds[i + 1]]
+                    if (startNode != null && endNode != null) {
+                        drawLine(
+                            color = Color.Blue,
+                            start = startNode.position,
+                            end = endNode.position,
+                            strokeWidth = 5f,
+                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f, 10f), 0f)
+                        )
                     }
                 }
             }
