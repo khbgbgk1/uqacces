@@ -153,7 +153,7 @@ object UniversityMap {
             MapNode("P1_5010", "P1-5010", Offset(305f, 335f), type = "Classe"),
             MapNode("P1_5020", "P1-5020", Offset(270f, 312f), type = "Classe"),
             MapNode("P1_5030", "P1-5030", Offset(290f, 273f), type = "Classe"),
-            MapNode("P1_5040", "P1-5040", Offset(290f, 235f), type = "Sortie de secours"),
+            MapNode("P1_5040", "Sortie de secours OUEST", Offset(290f, 235f), type = "Secours"),
             MapNode("P1_5050", "P1-5050", Offset(222f, 295f), type = "Classe"),
             MapNode("P1_5060", "P1-5060", Offset(205f, 295f), type = "Classe"),
             MapNode("P1_5070", "P1-5070", Offset(135f, 295f), type = "Classe"),
@@ -183,7 +183,7 @@ object UniversityMap {
 
             MapNode("P1_7000", "P1-7000", Offset(356f, 760f), type = "Classe"),
             MapNode("P1_7010", "P1-7010", Offset(292f, 760f), type = "Classe"),
-            MapNode("P1_7050", "P1-7050", Offset(270f, 850f), type = "Sortie de secours"),
+            MapNode("P1_7050", "Sortie de secours EST", Offset(270f, 850f), type = "secours"),
             MapNode("P1_7060", "P1-7060", Offset(221f, 794f), type = "Classe"),
             MapNode("P1_7070", "P1-7070", Offset(167f, 794f), type = "Classe"),
             MapNode("P1_7070", "P1-7080", Offset(150f, 794f), type = "Classe"),

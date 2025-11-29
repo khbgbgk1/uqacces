@@ -139,6 +139,8 @@ fun Accueil(
                     // *** IMPORTANT : ENLEVER le graphicsLayer ici, le parent le gère. ***
                 )
             }
+
+
 //            MapView(
 //                mapData = universityMapData,
 //                pathNodeIds = path,

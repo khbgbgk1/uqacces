@@ -110,6 +110,14 @@ fun MapView(
                         )
                     }
 
+                    else if(node.type.startsWith("Secours", ignoreCase = true)) {
+                        drawCircle(
+                            color = Color.Black,
+                            radius = 6f,
+                            center = node.position
+                        )
+                    }
+
                     else {
                         // For corridors, entrances, etc., just draw a small circle
                         drawCircle(
