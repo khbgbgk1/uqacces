@@ -12,13 +12,8 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.drawText
-import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.unit.sp
 
 /**
  * A composable that renders the map and handles user gestures for zooming and panning.
@@ -37,11 +32,11 @@ fun MapView(
     heading: Float,
     debugNodes: Boolean = false,
 ) {
-    var scale by remember { mutableStateOf(2.5f) }
+    var scale by remember { mutableStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
-    val nodesById = remember(mapData.nodes) { mapData.nodes.associateBy { it.id } }
-    val textMeasurer = rememberTextMeasurer()
+    var initialScale by remember { mutableStateOf<Float?>(null) }
 
+    val nodesById = remember(mapData.nodes) { mapData.nodes.associateBy { it.id } }
     val backgroundPainter = painterResource(id = mapBackground.resourceId)
     val imageSize = Size(mapBackground.width, mapBackground.height)
 
@@ -50,72 +45,89 @@ fun MapView(
             .fillMaxSize()
             .pointerInput(Unit) {
                 detectTransformGestures { centroid, pan, zoom, _ ->
-                    val oldScale = scale
-                    scale = (scale * zoom).coerceIn(1f, 5f)
-
-                    // Ajuster l'offset pour zoomer vers le point touché
-                    val scaleChange = scale / oldScale
-                    offset = (offset + centroid) * scaleChange - centroid + pan
+                    scale = (scale * zoom).coerceIn(0.5f, 5f)
+                    offset += pan
                 }
             }
     ) {
+        // Calculer le scale initial pour que la map prenne toute la largeur
+        if (initialScale == null) {
+            initialScale = size.width / imageSize.width
+            scale = initialScale!!
+        }
+
         val canvasCenter = center
         val mapCenter = Offset(imageSize.width / 2, imageSize.height / 2)
 
-        withTransform({
-            // 1. Se déplacer au centre du canvas
-            translate(left = canvasCenter.x, top = canvasCenter.y)
+        // Dessiner le point central fixe AVANT la rotation
+        drawCircle(
+            color = Color.Red,
+            radius = 10f,
+            center = canvasCenter
+        )
 
-            // 2. Appliquer la rotation autour de ce point
-            rotate(degrees = -heading)
+        // Dessiner une croix pour mieux voir le point central
+        drawLine(
+            color = Color.Red,
+            start = Offset(canvasCenter.x - 20f, canvasCenter.y),
+            end = Offset(canvasCenter.x + 20f, canvasCenter.y),
+            strokeWidth = 3f
+        )
+        drawLine(
+            color = Color.Red,
+            start = Offset(canvasCenter.x, canvasCenter.y - 20f),
+            end = Offset(canvasCenter.x, canvasCenter.y + 20f),
+            strokeWidth = 3f
+        )
 
-            // 3. Appliquer le zoom
-            scale(scale, scale)
+        // Appliquer les transformations pour la map
+        translate(left = canvasCenter.x, top = canvasCenter.y) {
+            rotate(degrees = -heading, pivot = Offset.Zero) {
+                scale(scale, scale, pivot = Offset.Zero) {
+                    translate(left = offset.x, top = offset.y) {
+                        translate(left = -mapCenter.x, top = -mapCenter.y) {
+                            // Dessiner le fond de la map
+                            with(backgroundPainter) {
+                                draw(size = imageSize)
+                            }
 
-            // 4. Appliquer le déplacement utilisateur
-            translate(left = offset.x, top = offset.y)
+                            // Dessiner les nœuds en mode debug
+                            if (debugNodes) {
+                                mapData.nodes.forEach { node ->
+                                    val color = when {
+                                        node.type.startsWith("Classe", ignoreCase = true) -> Color.Yellow
+                                        node.type.startsWith("Corridor", ignoreCase = true) -> Color.Magenta
+                                        node.type.startsWith("Ascenseur", ignoreCase = true) -> Color.Green
+                                        node.type.startsWith("Escalier", ignoreCase = true) -> Color.Cyan
+                                        node.type.startsWith("Secours", ignoreCase = true) -> Color.Black
+                                        else -> Color.Red
+                                    }
 
-            // 5. Centrer la map (position initiale)
-            translate(left = -mapCenter.x, top = -mapCenter.y)
-        }) {
-            // Dessiner le fond
-            with(backgroundPainter) {
-                draw(size = imageSize)
-            }
+                                    drawCircle(
+                                        color = color,
+                                        radius = 6f,
+                                        center = node.position
+                                    )
+                                }
+                            }
 
-            // Dessiner les nœuds en mode debug
-            if (debugNodes) {
-                mapData.nodes.forEach { node ->
-                    val color = when {
-                        node.type.startsWith("Classe", ignoreCase = true) -> Color.Yellow
-                        node.type.startsWith("Corridor", ignoreCase = true) -> Color.Magenta
-                        node.type.startsWith("Ascenseur", ignoreCase = true) -> Color.Green
-                        node.type.startsWith("Escalier", ignoreCase = true) -> Color.Cyan
-                        node.type.startsWith("Secours", ignoreCase = true) -> Color.Black
-                        else -> Color.Red
-                    }
-
-                    drawCircle(
-                        color = color,
-                        radius = 6f / scale, // Ajuster la taille avec le zoom
-                        center = node.position
-                    )
-                }
-            }
-
-            // Dessiner le chemin
-            if (pathNodeIds.size > 1) {
-                for (i in 0 until pathNodeIds.size - 1) {
-                    val startNode = nodesById[pathNodeIds[i]]
-                    val endNode = nodesById[pathNodeIds[i + 1]]
-                    if (startNode != null && endNode != null) {
-                        drawLine(
-                            color = Color.Blue,
-                            start = startNode.position,
-                            end = endNode.position,
-                            strokeWidth = 5f / scale, // Ajuster l'épaisseur avec le zoom
-                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f / scale, 10f / scale), 0f)
-                        )
+                            // Dessiner le chemin
+                            if (pathNodeIds.size > 1) {
+                                for (i in 0 until pathNodeIds.size - 1) {
+                                    val startNode = nodesById[pathNodeIds[i]]
+                                    val endNode = nodesById[pathNodeIds[i + 1]]
+                                    if (startNode != null && endNode != null) {
+                                        drawLine(
+                                            color = Color.Blue,
+                                            start = startNode.position,
+                                            end = endNode.position,
+                                            strokeWidth = 5f,
+                                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f, 10f), 0f)
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
