@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.uqacces.ui.theme.UQACCESTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import java.net.URLDecoder
@@ -59,7 +60,11 @@ class MainActivity : ComponentActivity() {
                                 // Navigate to the arrival search screen, but pass the existing departure point
                                 navController.navigate("rechercheArrivee/$encodedDepart")
                             },
-                            onSwap = {},
+                            onSwap = {navController.swapAndNavigateHome(
+                                currentDepart = startNodeName,
+                                currentArrivee = endNodeName,
+                                currentRoute = "accueil/{startNodeName}/{endNodeName}"
+                            )},
                         )
                     }
 
@@ -125,5 +130,25 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+}
+
+fun NavController.swapAndNavigateHome(
+    currentDepart: String,
+    currentArrivee: String,
+    currentRoute: String
+) {
+    // 1. Permuter les valeurs
+    val newDepart = currentArrivee
+    val newArrivee = currentDepart
+
+    // 2. Encoder
+    val encodedNewDepart = URLEncoder.encode(newDepart, "UTF-8")
+    val encodedNewArrivee = URLEncoder.encode(newArrivee, "UTF-8")
+
+    // 3. Naviguer vers le nouveau chemin
+    this.navigate("accueil/$encodedNewDepart/$encodedNewArrivee") {
+        // Remplacer l'entrée actuelle dans la pile de navigation
+        popUpTo(currentRoute) { inclusive = true }
     }
 }
