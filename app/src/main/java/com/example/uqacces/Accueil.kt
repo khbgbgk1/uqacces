@@ -51,9 +51,22 @@ fun Accueil(
 
     fun getDisplayName(nodeName: String?): String {
         if (nodeName == null) return ""
-        val node = universityMapData.nodes.find { it.name.equals(nodeName, ignoreCase = true) }
-        val poi = node?.let { n -> universityMapData.poi.find { p -> p.nodeId == n.id } }
-        return poi?.name ?: nodeName.replace("Classe ", "")
+        val node = universityMapData.nodes.find { it.name.equals(nodeName, ignoreCase = true) } ?: return nodeName.replace("Classe ", "")
+
+        // Chercher si c'est le bureau d'un prof
+        val professor = universityMapData.professors.find { it.officeNodeId == node.id }
+        if (professor != null) {
+            return professor.name
+        }
+
+        // Chercher si c'est un point d'intérêt
+        val poi = universityMapData.poi.find { it.nodeId == node.id }
+        if (poi != null) {
+            return poi.name
+        }
+
+        // Sinon, retourner le nom du noeud nettoyé
+        return nodeName.replace("Classe ", "")
     }
 
     val displayStartName = getDisplayName(startNodeName)
@@ -67,7 +80,7 @@ fun Accueil(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom =40.dp) //modifier pour remonter la barre en bas
+                        .padding(bottom = 40.dp) //modifier pour remonter la barre en bas
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,

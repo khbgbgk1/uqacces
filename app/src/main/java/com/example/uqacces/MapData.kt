@@ -64,7 +64,7 @@ object UniversityMap {
                 MapNode("ENTREE_NORD_OUEST", "Entree residence", Offset(920f, 370f)),
                 MapNode("ENTREE_NORD_EST", "Entree Rio Tinto", Offset(920f, 720f)),
                 MapNode("ENTREE_EST", "Entrée Est", Offset(460f, 830f)),
-                MapNode("ACCEUIL", "ACCEUIL", Offset(468f, 760f)),
+                MapNode("ACCUEIL", "ACCUEIL", Offset(468f, 760f)),
 
                 // Main Corridor Nodes (not visible)
                 MapNode("C_EST_Centre_Accueil", "Corridor", Offset(445f, 712f),type = "Corridor"),
@@ -120,8 +120,8 @@ object UniversityMap {
                 MapNode("P1_2010", "P1-2010", Offset(768f, 700f), type = "Classe"),
                 MapNode("P1_2020", "P1-2020", Offset(765f, 641f), type = "Classe"),
                 MapNode("P1_2030", "P1-2030", Offset(765f, 585f), type = "Classe"),
-                MapNode("P1_2060", "P1-2060", Offset(770f, 572f), type = "Toillette Homme"),
-                MapNode("P1_2070", "P1-2070", Offset(770f, 548f), type = "Toillette Femmes"),
+                MapNode("P1_2060", "P1-2060", Offset(770f, 572f), type = "Toilette Homme"),
+                MapNode("P1_2070", "P1-2070", Offset(770f, 548f), type = "Toilette Femmes"),
                 MapNode("P1_2080", "P1-2080", Offset(765f, 445f), type = "Classe"),
                 MapNode("P1_2090", "P1-2090", Offset(765f, 413f), type = "Classe"),
                 MapNode("P1_2110", "P1-2110", Offset(765f, 393f), type = "Classe"),
@@ -185,8 +185,8 @@ object UniversityMap {
                 MapNode("P1_5130", "P1-5130", Offset(117f, 532f), type = "Classe"),
 
 
-                MapNode("Toillette_P1_6_OUEST", "Toillette_P1_6_OUEST", Offset(360f, 358f), type = "Toillette Mixte"),
-                MapNode("Toillette_P1_6_EST", "Toillette_P1_6_EST", Offset(360f, 735f), type = "Toillette Mixte"),
+                MapNode("Toilette_P1_6_OUEST", "Toilette_P1_6_OUEST", Offset(360f, 358f), type = "Toilette Mixte"),
+                MapNode("Toilette_P1_6_EST", "Toilette_P1_6_EST", Offset(360f, 735f), type = "Toilette Mixte"),
                 MapNode("P1_6040", "P1-6040", Offset(258f, 312f), type = "Classe"),
                 MapNode("P1_6050", "P1-6050", Offset(258f, 338f), type = "Classe"),
                 MapNode("P1_6060", "P1-6060", Offset(258f, 375f), type = "Classe"),
@@ -228,10 +228,10 @@ object UniversityMap {
             ),
             //pas les bonnes classes, à voir avec les étages
             professors = listOf(
-                Professor("Alice Leroi", "P1_6080"),
-                Professor("Bob Martin", "P1_4075"),
-                Professor("Claire Durand", "P1_2030"),
-                Professor("David Gagnon", "P1_7120")
+                Professor("Marie-Alix Autet", "P1_4080"),
+                Professor("Johanne Truchon", "P1_4072"),
+                Professor("Jessica Lapierre", "P1_2020"),
+                Professor("Nathalia Matte", "P1_4050")
             ),
 
 
@@ -244,11 +244,11 @@ object UniversityMap {
                 MapEdge("ENTREE_OUEST", "C_OUEST_Centre_Entree", 4f),
                 MapEdge("C_OUEST_Centre_Entree", "ENTREE_OUEST", 4f),
 
-                MapEdge("ENTREE_EST", "ACCEUIL", 1f),
-                MapEdge("ACCEUIL", "ENTREE_EST", 1f),
+                MapEdge("ENTREE_EST", "ACCUEIL", 1f),
+                MapEdge("ACCUEIL", "ENTREE_EST", 1f),
 
-                MapEdge("ACCEUIL", "C_EST_Centre_Accueil", 1f),
-                MapEdge("C_EST_Centre_Accueil", "ACCEUIL", 1f),
+                MapEdge("ACCUEIL", "C_EST_Centre_Accueil", 1f),
+                MapEdge("C_EST_Centre_Accueil", "ACCUEIL", 1f),
 
                 MapEdge("C_EST_Centre_Accueil", "C_EST_Centre_Escalier", 1f),
                 MapEdge("C_EST_Centre_Escalier", "C_EST_Centre_Accueil", 1f),
@@ -295,11 +295,11 @@ object UniversityMap {
                 MapEdge("C_EST_6_Toilette", "Escalier_p1_6_EST", 1f),
                 MapEdge("Escalier_p1_6_EST", "C_EST_6_Toilette", 1f),
 
-                MapEdge("Toillette_P1_6_EST", "C_EST_6_Toilette", 1f),
-                MapEdge("C_EST_6_Toilette", "Toillette_P1_6_EST", 1f),
+                MapEdge("Toilette_P1_6_EST", "C_EST_6_Toilette", 1f),
+                MapEdge("C_EST_6_Toilette", "Toilette_P1_6_EST", 1f),
 
-                MapEdge("Toillette_P1_6_OUEST", "C_OUEST_6_Toilette", 1f),
-                MapEdge("C_OUEST_6_Toilette", "Toillette_P1_6_OUEST", 1f),
+                MapEdge("Toilette_P1_6_OUEST", "C_OUEST_6_Toilette", 1f),
+                MapEdge("C_OUEST_6_Toilette", "Toilette_P1_6_OUEST", 1f),
 
                 MapEdge("C_OUEST_7010", "C_OUEST_7050", 1f),
                 MapEdge("C_OUEST_7050", "C_OUEST_7010", 1f),
@@ -397,7 +397,7 @@ object UniversityMap {
 
                 // Couloir Sud-Ouest
                 MapEdge("P1_5000", "C_OUEST_Centre_Entree", 1f), MapEdge("C_OUEST_Centre_Entree", "P1_5000", 1f),
-                MapEdge("P1_5000", "Toillette_P1_6_OUEST", 1f), MapEdge("Toillette_P1_6_OUEST", "P1_5000", 1f),
+                MapEdge("P1_5000", "Toilette_P1_6_OUEST", 1f), MapEdge("Toilette_P1_6_OUEST", "P1_5000", 1f),
                 MapEdge("P1_5010", "P1_5000", 1f), MapEdge("P1_5000", "P1_5010", 1f),
                 MapEdge("P1_5010", "P1_6050", 1f), MapEdge("P1_6050", "P1_5010", 1f),
                 MapEdge("P1_5020", "P1_6050", 1f), MapEdge("P1_6050", "P1_5020", 1f),
@@ -459,8 +459,8 @@ object UniversityMap {
 
 
                 // couloir sud-Est
-                MapEdge("P1_7000", "ACCEUIL", 1f), MapEdge("ACCEUIL", "P1_7000", 1f),
-                MapEdge("P1_7000", "Toillette_P1_6_EST", 1f), MapEdge("Toillette_P1_6_EST", "P1_7000", 1f),
+                MapEdge("P1_7000", "ACCUEIL", 1f), MapEdge("ACCUEIL", "P1_7000", 1f),
+                MapEdge("P1_7000", "Toilette_P1_6_EST", 1f), MapEdge("Toilette_P1_6_EST", "P1_7000", 1f),
                 MapEdge("P1_7000", "P1_7010", 1f), MapEdge("P1_7010", "P1_7000", 1f),
                 MapEdge("P1_7010", "C_OUEST_7010", 1f), MapEdge("C_OUEST_7010", "P1_7010", 1f),
                 MapEdge("P1_7050", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7050", 1f), // Sortie de secours EST
@@ -486,7 +486,6 @@ object UniversityMap {
                 MapEdge("P1_7130", "P1_7120", 1f), MapEdge("P1_7120", "P1_7130", 1f),
                 MapEdge("P1_7140", "P1_7130", 1f), MapEdge("P1_7130", "P1_7140", 1f),
 
-
             ),
 
             walls = listOf(),
@@ -496,6 +495,37 @@ object UniversityMap {
                 PointOfInterest ("Bureau du registraire", "P1_1050"),
                 PointOfInterest ("Centre de référence le cube", "P1_4020"),
                 PointOfInterest ("Location de casier", "P1_1045"),
+                PointOfInterest ("Entrée ouest", "ENTREE_OUEST"),
+                PointOfInterest ("Entrée Nord Ouest", "ENTREE_NORD_OUEST"),
+                PointOfInterest ("Entrée Nord Est", "ENTREE_NORD_EST"),
+                PointOfInterest ("Entrée Est", "ENTREE_EST"),
+                PointOfInterest ("Accueil", "ACCUEIL"),
+
+                //escaliers
+                PointOfInterest("Escaliers P1-4 Ouest", "Escalier_p1_4_OUEST"),
+                PointOfInterest("Escaliers P1-4 Est", "Escalier_p1_4_EST"),
+                PointOfInterest("Escaliers P1-6 Ouest", "Escalier_p1_6_OUEST"),
+                PointOfInterest("Escaliers P1-6 Est", "Escalier_p1_6_EST"),
+                PointOfInterest("Escaliers P1-6 Secours Ouest", "Escalier_Secours_p1_6_OUEST"),
+                PointOfInterest("Escaliers P1-6 Secours Est", "Escalier_Secours_p1_6_EST"),
+
+                //sorties de secours
+                PointOfInterest("Sortie de secours Ouest", "Sortie de secours OUEST"),
+                PointOfInterest("Sortie de secours Est", "Sortie de secours EST"),
+                PointOfInterest("Local de sécurité", "P1-4260"),
+
+                //ascenseurs
+                PointOfInterest("Ascenseur P1-4", "Ascenseur_p1_4"),
+                PointOfInterest("Ascenseur P1-6 Ouest", "Ascenseur_p1_6_OUEST"),
+                PointOfInterest("Ascenseur P1-6 Est", "Ascenseur_p1_6_EST"),
+
+                //toilettes
+                PointOfInterest("Toilettes femmes", "P1-2070"),
+                PointOfInterest("Toilettes hommes", "P1-2060"),
+                PointOfInterest("Toilettes mixtes Ouest", "Toilette_P1_6_OUEST"),
+                PointOfInterest("Toilettes mixtes Est", "Toilette_P1_6_EST"),
+
+
             ),
         )
 }
