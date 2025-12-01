@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,6 +29,7 @@ fun Accueil(
     onSettingsClick: () -> Unit,
     onEditDepart: () -> Unit,
     onEditArrivee: () -> Unit,
+    onSwap: () -> Unit,
     startNodeName: String? = null,
     endNodeName: String? = null,
     debug: Boolean = false,
@@ -155,32 +157,51 @@ fun Accueil(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                 ) {
-                    Column(
+                    // CHANGEMENT : Utiliser un Row pour aligner les champs (Colonne) et l'icône (Bouton)
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp)
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically // Assure que le bouton est centré verticalement
                     ) {
-                        OutlinedTextField(
-                            value = displayStartName,
-                            onValueChange = {},
-                            label = { Text("Départ") },
-                            singleLine = true,
-                            readOnly = true,
-                            trailingIcon = { IconButton(onClick = onEditDepart) { Icon(Icons.Default.Close, "Modifier départ") } },
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        Column( // Conteneur pour les deux OutlinedTextFields
+                            modifier = Modifier.weight(1f) // Prend l'espace disponible
+                        ) {
+                            OutlinedTextField(
+                                value = displayStartName,
+                                onValueChange = {},
+                                label = { Text("Départ") },
+                                singleLine = true,
+                                readOnly = true,
+                                trailingIcon = { IconButton(onClick = onEditDepart) { Icon(Icons.Default.Close, "Modifier départ") } },
+                                modifier = Modifier.fillMaxWidth()
+                            )
 
-                        Spacer(Modifier.height(10.dp))
+                            Spacer(Modifier.height(10.dp))
 
-                        OutlinedTextField(
-                            value = displayEndName,
-                            onValueChange = {},
-                            label = { Text("Arrivée") },
-                            singleLine = true,
-                            readOnly = true,
-                            trailingIcon = { IconButton(onClick = onEditArrivee) { Icon(Icons.Default.Close, "Modifier arrivée") } },
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                            OutlinedTextField(
+                                value = displayEndName,
+                                onValueChange = {},
+                                label = { Text("Arrivée") },
+                                singleLine = true,
+                                readOnly = true,
+                                trailingIcon = { IconButton(onClick = onEditArrivee) { Icon(Icons.Default.Close, "Modifier arrivée") } },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+
+                        // BOUTON D'INVERSION PLACÉ À CÔTÉ (dans le Row)
+                        Spacer(Modifier.width(12.dp))
+                        IconButton(
+                            onClick = onSwap, // Appel de la fonction pour inverser les valeurs
+                            modifier = Modifier.size(48.dp)
+                        ) {
+                            Icon(
+                                Icons.Filled.SwapVert,
+                                contentDescription = "Inverser départ et arrivée",
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
                     }
                 }
             }
@@ -198,6 +219,7 @@ fun PreviewAccueilDebug() {
         onSettingsClick = {},
         onEditDepart = {},
         onEditArrivee = {},
+        onSwap = {},
         debug = true // Afficher les nœuds en mode debug
     )
 }

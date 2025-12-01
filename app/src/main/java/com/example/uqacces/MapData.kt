@@ -228,10 +228,10 @@ object UniversityMap {
             ),
             //pas les bonnes classes, à voir avec les étages
             professors = listOf(
-                Professor("Marie-Alix Autet", "P1_4080"),
-                Professor("Johanne Truchon", "P1_4072"),
-                Professor("Jessica Lapierre", "P1_2020"),
-                Professor("Nathalia Matte", "P1_4050")
+                Professor("Marie-Alix Autet (P1_4080)", "P1_4080"),
+                Professor("Johanne Truchon (P1_4072)", "P1_4072"),
+                Professor("Jessica Lapierre (P1_2020)", "P1_2020"),
+                Professor("Nathalia Matte (P1_4050)", "P1_4050")
             ),
 
 

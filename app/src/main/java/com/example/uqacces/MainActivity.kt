@@ -31,7 +31,8 @@ class MainActivity : ComponentActivity() {
                             onSearchClick = { navController.navigate("rechercheArrivee") },
                             onSettingsClick = { navController.navigate("parametres") },
                             onEditDepart = { /* Should not happen */ },
-                            onEditArrivee = { /* Should not happen */ }
+                            onEditArrivee = { /* Should not happen */ },
+                            onSwap = {},
                         )
                     }
 
@@ -57,7 +58,8 @@ class MainActivity : ComponentActivity() {
                                 val encodedDepart = URLEncoder.encode(startNodeName, "UTF-8")
                                 // Navigate to the arrival search screen, but pass the existing departure point
                                 navController.navigate("rechercheArrivee/$encodedDepart")
-                            }
+                            },
+                            onSwap = {},
                         )
                     }
 
