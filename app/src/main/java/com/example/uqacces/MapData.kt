@@ -442,6 +442,7 @@ object UniversityMap {
                 MapEdge("P1_6070", "P1_6060", 1f), MapEdge("P1_6060", "P1_6070", 1f),
                 MapEdge("P1_6080", "P1_6070", 1f), MapEdge("P1_6070", "P1_6080", 1f), // Alice Leroi
                 MapEdge("P1_6090", "C_OUEST_6_Toilette", 1f), MapEdge("C_OUEST_6_Toilette", "P1_6090", 1f),
+                MapEdge("P1_6090", "Escalier_p1_6_OUEST", 1f), MapEdge("Escalier_p1_6_OUEST", "P1_6090", 1f),
                 MapEdge("P1_6120", "P1_6080", 1f), MapEdge("P1_6080", "P1_6120", 1f),
                 MapEdge("P1_6120", "P1_6090", 1f), MapEdge("P1_6090", "P1_6120", 1f),
                 MapEdge("P1_6130", "P1_6120", 1f), MapEdge("P1_6120", "P1_6130", 1f),
@@ -452,6 +453,7 @@ object UniversityMap {
                 MapEdge("P1_6160", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6160", 1f),
                 MapEdge("P1_6170", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6170", 1f),
                 MapEdge("P1_6170", "C_EST_6_Toilette", 1f), MapEdge("C_EST_6_Toilette", "P1_6170", 1f),
+                MapEdge("P1_6170", "Escalier_p1_6_EST", 1f), MapEdge("Escalier_p1_6_EST", "P1_6170", 1f),
                 MapEdge("P1_6180", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6180", 1f),
                 MapEdge("P1_6180", "C_OUEST_7010", 1f), MapEdge("C_OUEST_7010", "P1_6180", 1f),
 
