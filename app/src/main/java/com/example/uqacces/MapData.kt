@@ -237,57 +237,7 @@ object UniversityMap {
                 MapEdge("P1_7130", "P1_7140",2f),MapEdge("P1_7140", "P1_7130",2f),
 
             ),
-            walls = listOf(
-                // BLOC 1 fait
-                Wall(Offset(630f, 720f), Offset(900f, 720f)),
-                Wall(Offset(630f, 780f), Offset(900f, 780f)),
-                Wall(Offset(630f, 720f), Offset(630f, 780f)),
-                Wall(Offset(900f, 720f), Offset(900f, 780f)),
-    
-                // BLOC 2 fait
-                Wall(Offset(820f, 220f), Offset(900f, 220f)), //haut horizontal
-                Wall(Offset(820f, 650f), Offset(900f, 650f)), //bas horizontal
-                Wall(Offset(820f, 220f), Offset(820f, 650f)), //vertical gauche
-                Wall(Offset(900f, 220f), Offset(900f, 650f)), //vertical droit
-                // BLOC 3 fait
-                Wall(Offset(480f, 130f), Offset(900f, 130f)),
-                Wall(Offset(480f, 180f), Offset(900f, 180f)),
-                Wall(Offset(480f, 130f), Offset(480f, 180f)),
-                Wall(Offset(900f, 130f), Offset(900f, 180f)),
-    
-                // BLOC 4
-                //modif avec couloirs
-                Wall(Offset(480f, 280f), Offset(680f, 280f)),
-                Wall(Offset(480f, 670f), Offset(680f, 670f)),
-                Wall(Offset(480f, 280f), Offset(480f, 670f)),
-                Wall(Offset(680f, 280f), Offset(680f, 670f)),
-    
-                // BLOC 5 & 7
-                Wall(Offset(80f, 110f), Offset(380f, 110f)),
-                Wall(Offset(380f, 110f), Offset(380f, 240f)),
-                Wall(Offset(270f, 240f), Offset(380f, 240f)),
-                Wall(Offset(270f, 210f), Offset(270f, 240f)),
-                Wall(Offset(120f, 210f), Offset(270f, 210f)),
-                Wall(Offset(120f, 210f), Offset(120f, 750f)), // vertical intérieure
-                Wall(Offset(120f, 750f), Offset(270f, 750f)),
-                Wall(Offset(270f, 720f), Offset(270f, 750f)),
-                Wall(Offset(270f, 720f), Offset(380f, 720f)),
-                Wall(Offset(380f, 720f), Offset(380f, 870f)),
-                Wall(Offset(80f, 870f), Offset(380f, 870f)),
-                Wall(Offset(80f, 110f), Offset(80f, 870f)),
-    
-                // BLOC 6 fait
-                Wall(Offset(150f, 230f), Offset(250f, 230f)),//haut horizontal
-                Wall(Offset(250f, 230f), Offset(250f, 270f)),
-                Wall(Offset(250f, 270f), Offset(380f, 270f)), //modif avec couloir
-                Wall(Offset(380f, 270f), Offset(380f, 690f)), //vertical droit
-                Wall(Offset(250f, 690f), Offset(380f, 690f)),
-                Wall(Offset(250f, 690f), Offset(250f, 730f)),
-                Wall(Offset(150f, 730f), Offset(250f, 730f)), //bas horizontal
-                Wall(Offset(150f, 230f), Offset(150f, 730f)), //pas modif
-    
-    
-            ),
+            walls = listOf(),
             poi = listOf(),
         )
 }
