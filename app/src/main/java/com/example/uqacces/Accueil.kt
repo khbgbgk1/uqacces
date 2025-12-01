@@ -67,7 +67,7 @@ fun Accueil(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom =30.dp) //modifier pour remonter la barre en bas
+                        .padding(bottom =40.dp) //modifier pour remonter la barre en bas
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
