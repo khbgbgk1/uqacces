@@ -80,6 +80,7 @@ object UniversityMap {
                 MapNode("C_OUEST_4080", "Corridor", Offset(762f, 620f),type = "Corridor"),
                 MapNode("C_EST_4120", "Corridor", Offset(762f, 510f),type = "Corridor"),
                 MapNode("C_EST_4180", "Corridor", Offset(762f, 458f),type = "Corridor"),
+                MapNode("C_OUEST_4205", "Corridor", Offset(680f, 380f),type = "Corridor"),
 
                 MapNode("C_OUEST_5050", "Corridor", Offset(290f, 295f),type = "Corridor"),
                 MapNode("C_OUEST_5060", "Corridor", Offset(265f, 295f),type = "Corridor"),
@@ -363,24 +364,29 @@ object UniversityMap {
                 MapEdge("P1_2090", "P1_2080", 1f), MapEdge("P1_2080", "P1_2090", 1f),
                 MapEdge("P1_2090", "P1_4190", 1f), MapEdge("P1_4190", "P1_2090", 1f),
                 MapEdge("P1_4200", "P1_4190", 1f), MapEdge("P1_4190", "P1_4200", 1f),
+                MapEdge("P1_4200", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4200", 1f),
                 MapEdge("P1_4200", "P1_2110", 1f), MapEdge("P1_2110", "P1_4200", 1f),
                 MapEdge("P1_2110", "P1_4190", 1f), MapEdge("P1_4190", "P1_2110", 1f),
                 MapEdge("P1_2110", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_2110", 1f),
 
-// BLOC 3
-                MapEdge("P1_3005", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_3005", 1f),
+
+                // Couloir Nord-Ouest
+                MapEdge("P1_3005", "P1_3010", 1f), MapEdge("P1_3010", "P1_3005", 1f),
                 MapEdge("P1_3010", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_3010", 1f),
-                MapEdge("P1_3030", "C_OUEST_Centre_Escalier", 1f), MapEdge("C_OUEST_Centre_Escalier", "P1_3030", 1f),
+                MapEdge("P1_4205", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4205", 1f),
+                MapEdge("P1_4205", "C_OUEST_4205", 1f), MapEdge("C_OUEST_4205", "P1_4205", 1f),
+                MapEdge("P1_4240", "C_OUEST_4205", 1f), MapEdge("C_OUEST_4205", "P1_4240", 1f),
+                MapEdge("P1_4250", "P1_4240", 1f), MapEdge("P1_4240", "P1_4250", 1f),
+                MapEdge("P1_3030", "P1_4250", 1f), MapEdge("P1_4250", "P1_3030", 1f),
+                MapEdge("P1_3030", "Escalier_p1_4_OUEST", 1f), MapEdge("Escalier_p1_4_OUEST", "P1_3030", 1f),
+
+                MapEdge("P1_4210", "C_OUEST_4205", 1f), MapEdge("C_OUEST_4205", "P1_4210", 1f),
+                MapEdge("P1_4220", "P1_4210", 1f), MapEdge("P1_4210", "P1_4220", 1f),
+                MapEdge("P1_4230", "P1_4220", 1f), MapEdge("P1_4220", "P1_4230", 1f),
+
 
 // BLOC 4
-                MapEdge("P1_4200", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4200", 1f),
-                MapEdge("P1_4205", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4205", 1f),
-                MapEdge("P1_4210", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4210", 1f),
-                MapEdge("P1_4220", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4220", 1f),
-                MapEdge("P1_4230", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4230", 1f),
-                MapEdge("P1_4240", "Escalier_p1_4_OUEST", 1f), MapEdge("Escalier_p1_4_OUEST", "P1_4240", 1f),
-                MapEdge("P1_4250", "Escalier_p1_4_OUEST", 1f), MapEdge("Escalier_p1_4_OUEST", "P1_4250", 1f),
-                MapEdge("P1_4260", "Escalier_p1_4_OUEST", 1f), MapEdge("Escalier_p1_4_OUEST", "P1_4260", 1f), // Local sécurité
+                //MapEdge("P1_4260", "Escalier_p1_4_OUEST", 1f), MapEdge("Escalier_p1_4_OUEST", "P1_4260", 1f),
                 //MapEdge("P1_4270", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4270", 1f),
                 //MapEdge("P1_4280", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4280", 1f),
 
