@@ -29,7 +29,7 @@ data class Professor(
 
 data class PointOfInterest(
     val name: String,
-    val officeNodeId: String
+    val nodeId: String
 )
 
 data class MapData(
@@ -200,6 +200,13 @@ object UniversityMap {
             Professor("Jessica Lapierre", "P1_2020"),
             Professor("Nathalia Matte", "P1_4050")
         ),
+        poi = listOf(
+            PointOfInterest("école de langue française et de culture quebecoise, centre du savoir sur mesure", "P1_2000"),
+            PointOfInterest("Service des ressources financières", "P1_1080"),
+            PointOfInterest("Bureau du registraire", "P1_1050"),
+            PointOfInterest("Centre de référence le cube", "P1_4020"),
+            PointOfInterest("Location de casier", "P1_1045")
+        ),
         //refaire les edges
         //voir si on peut rajouter une valeur (correspond au temps)
         edges = listOf(
@@ -234,7 +241,7 @@ object UniversityMap {
             MapEdge("C_BLOC4_HAUT", "P1_4270"), MapEdge("P1_4270", "C_BLOC4_HAUT"),
             MapEdge("C_BLOC4_HAUT", "P1_4280"), MapEdge("P1_4280", "C_BLOC4_HAUT"),
             MapEdge("C_CENTRAL", "P1_4170"), MapEdge("P1_4170", "C_CENTRAL"),
-            MapEdge("C_CENTRAL", "P1_4115"), MapEdge("P1_4115", "C_CENTRAL"),
+            MapEdge("C_CENTRAL", "P1_4115"), MapEdge("P1_4115", "C_CENTral"),
             MapEdge("C_CENTRAL", "P1_4075"), MapEdge("P1_4075", "C_CENTRAL"),
             MapEdge("C_CENTRAL", "P1_4020"), MapEdge("P1_4020", "C_CENTRAL"),
             MapEdge("C_BLOC5_OUEST", "P1_5070"), MapEdge("P1_5070", "C_BLOC5_OUEST"),
@@ -327,14 +334,6 @@ object UniversityMap {
             Wall(Offset(150f, 230f), Offset(150f, 730f)), //pas modif
 
 
-        ),
-        poi = listOf(
-            PointOfInterest("école de langue française et de culture quebecoise, centre du savoir sur mesure", "P1_2000"),
-            PointOfInterest ("Service des ressources financières", "P1-1080"),
-            PointOfInterest ("Bureau du registraire", "P1-1050"),
-            PointOfInterest ("Centre de référence le cube", "P1-4020"),
-            PointOfInterest ("Location de casier", "P1-1045"),
-
-            ),
+        )
     )
 }

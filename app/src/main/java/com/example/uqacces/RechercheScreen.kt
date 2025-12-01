@@ -39,7 +39,7 @@ fun PointArriveeScreen(
     }
 
     // Correctly remembered lists at the top-level of the composable
-    val pois = remember { mapData.nodes.filter { node -> node.type != "Classe" && node.type != "Corridor" } }
+    val pois = remember { mapData.poi }
     val profs = remember { mapData.professors }
     val salles = remember { mapData.nodes.filter { node -> node.type == "Classe" } }
 
@@ -70,7 +70,8 @@ fun PointArriveeScreen(
                     0 -> { // Points of Interest
                         val filteredPois = pois.filter { poi -> poi.name.contains(query, ignoreCase = true) }
                         items(filteredPois) { poi ->
-                            ListRow(label = poi.name, onClick = { submitAndNavigate(poi.name) })
+                            val nodeName = mapData.nodes.find { node -> node.id == poi.nodeId }?.name ?: "N/A"
+                            ListRow(label = poi.name, onClick = { submitAndNavigate(nodeName) })
                         }
                     }
                     1 -> { // Professors
@@ -117,7 +118,7 @@ fun PointDepartScreen(
     }
 
     // Correctly remembered lists, recomposed if initialArrive changes
-    val pois = remember(initialArrive) { mapData.nodes.filter { n -> n.type != "Classe" && n.type != "Corridor" && n.name != initialArrive } }
+    val pois = remember(initialArrive) { mapData.poi.filter { poi -> mapData.nodes.find { node -> node.id == poi.nodeId }?.name != initialArrive } }
     val profs = remember { mapData.professors }
     val salles = remember(initialArrive) { mapData.nodes.filter { n -> n.type == "Classe" && n.name != initialArrive } }
 
@@ -146,7 +147,8 @@ fun PointDepartScreen(
                     0 -> { // POI
                         val filtered = pois.filter { p -> p.name.contains(query, ignoreCase = true) }
                         items(filtered) { poi ->
-                            ListRow(label = poi.name, onClick = { submitAndNavigate(poi.name) })
+                            val nodeName = mapData.nodes.find { node -> node.id == poi.nodeId }?.name ?: "N/A"
+                            ListRow(label = poi.name, onClick = { submitAndNavigate(nodeName) })
                         }
                     }
                     1 -> { // Professors
