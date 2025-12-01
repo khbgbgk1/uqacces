@@ -58,15 +58,6 @@ fun MapView(
             with(backgroundPainter) {
                draw(size = imageSize) // Dessine l'image en utilisant les dimensions définies dans MapBackground
             }
-            // Draw walls
-//            mapData.walls.forEach { wall ->
-//                drawLine(
-//                    color = Color.Black,
-//                    start = wall.start,
-//                    end = wall.end,
-//                    strokeWidth = 2f
-//                )
-//            }
 
             // Draw nodes
             if (debugNodes) {
@@ -127,6 +118,22 @@ fun MapView(
                         )
                     }
                 }
+                //Draw edges
+                mapData.edges.forEach { edge ->
+                    val startNode = nodesById[edge.startNodeId]
+                    val endNode = nodesById[edge.endNodeId]
+
+                    // Dessine l'arête si les deux nœuds existent
+                    if (startNode != null && endNode != null) {
+                        drawLine(
+                            color = Color.Magenta.copy(alpha = 0.6f), // Couleur subtile pour l'infrastructure
+                            start = startNode.position,
+                            end = endNode.position,
+                            strokeWidth = 3f // Épaisseur de ligne
+                        )
+                    }
+                }
+
             }
 
             // Draw path

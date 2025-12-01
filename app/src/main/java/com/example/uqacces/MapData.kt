@@ -61,8 +61,8 @@ object UniversityMap {
             nodes = listOf(
                 // Entrances & POIs
                 MapNode("ENTREE_OUEST", "Hall d'entrée Ouest", Offset(460f, 250f)),
-                MapNode("ENTREE_NORDD_OUEST", "Entree residence", Offset(920f, 370f)),
-                MapNode("ENTREE_NORDD_EST", "Entree Rio Tinto", Offset(920f, 720f)),
+                MapNode("ENTREE_NORD_OUEST", "Entree residence", Offset(920f, 370f)),
+                MapNode("ENTREE_NORD_EST", "Entree Rio Tinto", Offset(920f, 720f)),
                 MapNode("ENTREE_EST", "Entrée Est", Offset(460f, 830f)),
                 MapNode("ACCEUIL", "ACCEUIL", Offset(468f, 760f)),
 
@@ -70,7 +70,7 @@ object UniversityMap {
                 MapNode("C_EST_Centre_Accueil", "Corridor", Offset(445f, 712f),type = "Corridor"),
                 MapNode("C_EST_Centre_Escalier", "Corridor", Offset(445f, 680f),type = "Corridor"),
                 MapNode("C_OUEST_Centre_Escalier", "Corridor", Offset(435f, 420f),type = "Corridor"),
-                MapNode("C_OUEST_Centre_Escalier", "Corridor", Offset(460f, 335f),type = "Corridor"),
+                MapNode("C_OUEST_Centre-Entree", "Corridor", Offset(460f, 335f),type = "Corridor"),
 
                 MapNode("C_OUEST_1060", "Corridor", Offset(762f, 720f),type = "Corridor"),
                 MapNode("C_OUEST_1080", "Corridor", Offset(840f, 720f),type = "Corridor"),
@@ -82,7 +82,7 @@ object UniversityMap {
                 MapNode("C_EST_4180", "Corridor", Offset(762f, 458f),type = "Corridor"),
 
                 MapNode("C_OUEST_5050", "Corridor", Offset(290f, 295f),type = "Corridor"),
-                MapNode("C_OUEST_5050", "Corridor", Offset(265f, 295f),type = "Corridor"),
+                MapNode("C_OUEST_5060", "Corridor", Offset(265f, 295f),type = "Corridor"),
                 MapNode("C_OUEST_5090", "Corridor", Offset(117f, 375f),type = "Corridor"),
 
                 MapNode("C_EST_6_Toilette", "Corridor", Offset(370f, 680f),type = "Corridor"),
@@ -232,11 +232,214 @@ object UniversityMap {
                 Professor("Claire Durand", "P1_2030"),
                 Professor("David Gagnon", "P1_7120")
             ),
+
+
+
             edges = listOf(
+                //MapEdge("P1_7120", "P1_7130",5f),MapEdge("P1_7130", "P1_7120",5f),
+                //MapEdge("P1_7130", "P1_7140",2f),MapEdge("P1_7140", "P1_7130",2f),
+
+                // Main Corridor Nodes (East-West & North-South spine)
+                MapEdge("ENTREE_OUEST", "C_OUEST_Centre-Entree", 4f),
+                MapEdge("C_OUEST_Centre-Entree", "ENTREE_OUEST", 4f),
+
+                MapEdge("ENTREE_EST", "ACCEUIL", 1f),
+                MapEdge("ACCEUIL", "ENTREE_EST", 1f),
+
+                MapEdge("ACCEUIL", "C_EST_Centre_Accueil", 1f),
+                MapEdge("C_EST_Centre_Accueil", "ACCEUIL", 1f),
+
+                MapEdge("C_EST_Centre_Accueil", "C_EST_Centre_Escalier", 1f),
+                MapEdge("C_EST_Centre_Escalier", "C_EST_Centre_Accueil", 1f),
+
+                MapEdge("C_EST_Centre_Accueil", "Escalier_p1_4_EST", 1f),
+                MapEdge("Escalier_p1_4_EST", "C_EST_Centre_Accueil", 1f),
+
+                MapEdge("C_OUEST_Centre-Entree", "Escalier_p1_4_OUEST", 1f),
+                MapEdge("Escalier_p1_4_OUEST", "C_OUEST_Centre-Entree", 1f),
+
+                MapEdge("C_OUEST_Centre_Escalier", "C_OUEST_Centre-Entree", 1f),
+                MapEdge("C_OUEST_Centre-Entree", "C_OUEST_Centre_Escalier", 1f),
+
+                MapEdge("C_OUEST_Centre_Escalier", "Escalier_p1_6_OUEST", 1f),
+                MapEdge("Escalier_p1_6_OUEST", "C_OUEST_Centre_Escalier", 1f),
+
+                MapEdge("C_EST_Centre_Escalier", "Escalier_p1_6_EST", 1f),
+                MapEdge("Escalier_p1_6_EST", "C_EST_Centre_Escalier", 1f),
+
+                MapEdge("C_OUEST_1060", "C_OUEST_1080", 1f),
+                MapEdge("C_OUEST_1080", "C_OUEST_1060", 1f),
+
+                MapEdge("ENTREE_NORD_EST", "C_OUEST_1080", 1f),
+                MapEdge("C_OUEST_1080", "ENTREE_NORD_EST", 1f),
+
+                MapEdge("ENTREE_NORD_OUEST", "P1_3005", 1f),
+                MapEdge("P1_3005", "ENTREE_NORD_OUEST", 1f),
+
+                MapEdge("C_OUEST_Centre_Escalier", "C_OUEST_6_Toilette", 1f),
+                MapEdge("C_OUEST_6_Toilette", "C_OUEST_Centre_Escalier", 1f),
+
+                MapEdge("C_OUEST_6_Toilette", "Ascenseur_p1_6_OUEST", 1f),
+                MapEdge("Ascenseur_p1_6_OUEST", "C_OUEST_6_Toilette", 1f),
+
+                MapEdge("C_OUEST_6_Toilette", "Escalier_p1_6_OUEST", 1f),
+                MapEdge("Escalier_p1_6_OUEST", "C_OUEST_6_Toilette", 1f),
+
+                MapEdge("C_EST_Centre_Escalier", "C_EST_6_Toilette", 1f),
+                MapEdge("C_EST_6_Toilette", "C_EST_Centre_Escalier", 1f),
+
+                MapEdge("C_EST_6_Toilette", "Ascenseur_p1_6_EST", 1f),
+                MapEdge("Ascenseur_p1_6_EST", "C_EST_6_Toilette", 1f),
+
+                MapEdge("C_EST_6_Toilette", "Escalier_p1_6_EST", 1f),
+                MapEdge("Escalier_p1_6_EST", "C_EST_6_Toilette", 1f),
+
+                MapEdge("C_OUEST_7010", "C_OUEST_7050", 1f),
+                MapEdge("C_OUEST_7050", "C_OUEST_7010", 1f),
+
+                MapEdge("C_OUEST_7060", "C_OUEST_7050", 1f),
+                MapEdge("C_OUEST_7050", "C_OUEST_7060", 1f),
+
+
+                // Couloir Nord-Est
+                MapEdge("P1_1020", "Escalier_p1_4_EST", 1f), MapEdge("Escalier_p1_4_EST", "P1_1020", 1f),
+                MapEdge("P1_4020", "Escalier_p1_4_EST", 1f), MapEdge("Escalier_p1_4_EST", "P1_4020", 1f),
+                MapEdge("P1_1020", "P1_1040", 1f), MapEdge("P1_1040", "P1_1020", 1f),
+                MapEdge("P1_1040", "P1_1045", 1f), MapEdge("P1_1045", "P1_1040", 1f),
+                MapEdge("P1_1045", "P1_4020", 1f), MapEdge("P1_4020", "P1_1045", 1f),
+                MapEdge("P1_1045", "P1_1050", 1f), MapEdge("P1_1050", "P1_1045", 1f),
+                MapEdge("P1_1050", "C_OUEST_1060", 1f), MapEdge("C_OUEST_1060", "P1_1050", 1f),
+                MapEdge("P1_1050", "P1_4030", 1f), MapEdge("P1_4030", "P1_1050", 1f),
+                MapEdge("P1_1050", "P1_4035", 1f), MapEdge("P1_4035", "P1_1050", 1f),
+                MapEdge("P1_4030", "P1_4020", 1f), MapEdge("P1_4020", "P1_4030", 1f),
+                MapEdge("P1_4030", "P1_4035", 1f), MapEdge("P1_4035", "P1_4030", 1f),
+                MapEdge("C_OUEST_1060", "P1_4035", 1f), MapEdge("P1_4035", "C_OUEST_1060", 1f),
+                MapEdge("P1_1080", "C_OUEST_1080", 1f), MapEdge("C_OUEST_1080", "P1_1080", 1f),
+                MapEdge("P1_2000", "C_OUEST_1080", 1f), MapEdge("C_OUEST_1080", "P1_2000", 1f),
+
+
+// BLOC 2
+                MapEdge("P1_2010", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_2010", 1f),
+                MapEdge("P1_2020", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_2020", 1f),
+                MapEdge("P1_2030", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_2030", 1f),
+                MapEdge("P1_2060", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_2060", 1f), // Toilette Homme
+                MapEdge("P1_2070", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_2070", 1f), // Toilette Femme
+                MapEdge("P1_2080", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_2080", 1f),
+                MapEdge("P1_2090", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_2090", 1f),
+                MapEdge("P1_2110", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_2110", 1f),
+
+// BLOC 3
+                MapEdge("P1_3005", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_3005", 1f),
+                MapEdge("P1_3010", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_3010", 1f),
+                MapEdge("P1_3030", "C_OUEST_Centre_Escalier", 1f), MapEdge("C_OUEST_Centre_Escalier", "P1_3030", 1f),
+
+// BLOC 4
+                MapEdge("P1_4040", "Ascenseur_p1_4", 1f), MapEdge("Ascenseur_p1_4", "P1_4040", 1f),
+                MapEdge("P1_4050", "Ascenseur_p1_4", 1f), MapEdge("Ascenseur_p1_4", "P1_4050", 1f),
+                MapEdge("P1_4060", "Ascenseur_p1_4", 1f), MapEdge("Ascenseur_p1_4", "P1_4060", 1f),
+                MapEdge("P1_4070", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_4070", 1f),
+                MapEdge("P1_4071", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_4071", 1f),
+                MapEdge("P1_4072", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_4072", 1f),
+                MapEdge("P1_4073", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_4073", 1f),
+                MapEdge("P1_4075", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_4075", 1f), // Bob Martin
+                MapEdge("P1_4080", "C_OUEST_4080", 1f), MapEdge("C_OUEST_4080", "P1_4080", 1f),
+                MapEdge("P1_4090", "C_EST_4120", 1f), MapEdge("C_EST_4120", "P1_4090", 1f),
+                MapEdge("P1_4110", "C_EST_4120", 1f), MapEdge("C_EST_4120", "P1_4110", 1f),
+                MapEdge("P1_4112", "C_EST_4120", 1f), MapEdge("C_EST_4120", "P1_4112", 1f),
+                MapEdge("P1_4115", "C_EST_4120", 1f), MapEdge("C_EST_4120", "P1_4115", 1f),
+                MapEdge("P1_4120", "C_EST_4120", 1f), MapEdge("C_EST_4120", "P1_4120", 1f),
+                MapEdge("P1_4130", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4130", 1f),
+                MapEdge("P1_4140", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4140", 1f),
+                MapEdge("P1_4150", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4150", 1f),
+                MapEdge("P1_4160", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4160", 1f),
+                MapEdge("P1_4165", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4165", 1f),
+                MapEdge("P1_4170", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4170", 1f),
+                MapEdge("P1_4180", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4180", 1f),
+                MapEdge("P1_4190", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4190", 1f),
+                MapEdge("P1_4200", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4200", 1f),
+                MapEdge("P1_4205", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4205", 1f),
+                MapEdge("P1_4210", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4210", 1f),
+                MapEdge("P1_4220", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4220", 1f),
+                MapEdge("P1_4230", "C_OUEST_3010", 1f), MapEdge("C_OUEST_3010", "P1_4230", 1f),
+                MapEdge("P1_4240", "Escalier_p1_4_OUEST", 1f), MapEdge("Escalier_p1_4_OUEST", "P1_4240", 1f),
+                MapEdge("P1_4250", "Escalier_p1_4_OUEST", 1f), MapEdge("Escalier_p1_4_OUEST", "P1_4250", 1f),
+                MapEdge("P1_4260", "Escalier_p1_4_OUEST", 1f), MapEdge("Escalier_p1_4_OUEST", "P1_4260", 1f), // Local sécurité
+                MapEdge("P1_4270", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4270", 1f),
+                MapEdge("P1_4280", "C_EST_4180", 1f), MapEdge("C_EST_4180", "P1_4280", 1f),
+
+// BLOC 5
+                MapEdge("P1_5000", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_5000", 1f),
+                MapEdge("P1_5010", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_5010", 1f),
+                MapEdge("P1_5020", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_5020", 1f),
+                MapEdge("P1_5030", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_5030", 1f),
+                MapEdge("P1_5040", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_5040", 1f), // Sortie de secours OUEST
+                MapEdge("P1_5050", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_5050", 1f),
+                MapEdge("P1_5060", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_5060", 1f),
+                MapEdge("P1_5070", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "P1_5070", 1f),
+                MapEdge("P1_5080", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "P1_5080", 1f),
+                MapEdge("P1_5090", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "P1_5090", 1f),
+                MapEdge("P1_5100", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "P1_5100", 1f),
+                MapEdge("P1_5110", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "P1_5110", 1f),
+                MapEdge("P1_5120", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "P1_5120", 1f),
+                MapEdge("P1_5130", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "P1_5130", 1f),
+
+// BLOC 6 (Côté OUEST du couloir)
+                MapEdge("Toillette_P1_6_OUEST", "C_OUEST_6_Toilette", 1f), MapEdge("C_OUEST_6_Toilette", "Toillette_P1_6_OUEST", 1f),
+                MapEdge("P1_6040", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_6040", 1f),
+                MapEdge("P1_6050", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_6050", 1f),
+                MapEdge("P1_6060", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_6060", 1f),
+                MapEdge("P1_6070", "C_OUEST_5050", 1f), MapEdge("C_OUEST_5050", "P1_6070", 1f),
+                MapEdge("P1_6080", "C_OUEST_6_Toilette", 1f), MapEdge("C_OUEST_6_Toilette", "P1_6080", 1f), // Alice Leroi
+                MapEdge("P1_6090", "C_OUEST_6_Toilette", 1f), MapEdge("C_OUEST_6_Toilette", "P1_6090", 1f),
+                MapEdge("P1_6120", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6120", 1f),
+                MapEdge("P1_6130", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6130", 1f),
+                MapEdge("P1_6135", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6135", 1f),
+                MapEdge("P1_6140", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6140", 1f),
+                MapEdge("P1_6150", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6150", 1f),
+                MapEdge("P1_6160", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6160", 1f),
+                MapEdge("P1_6170", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6170", 1f),
+                MapEdge("P1_6180", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6180", 1f),
+
+// BLOC 6 (Côté EST du couloir)
+                MapEdge("Toillette_P1_6_EST", "C_EST_6_Toilette", 1f), MapEdge("C_EST_6_Toilette", "Toillette_P1_6_EST", 1f),
+                MapEdge("P1_6380", "Escalier_Secours_p1_6_OUEST", 1f), MapEdge("Escalier_Secours_p1_6_OUEST", "P1_6380", 1f),
+                MapEdge("P1_6370", "Escalier_Secours_p1_6_OUEST", 1f), MapEdge("Escalier_Secours_p1_6_OUEST", "P1_6370", 1f),
+                MapEdge("P1_6360", "Escalier_Secours_p1_6_OUEST", 1f), MapEdge("Escalier_Secours_p1_6_OUEST", "P1_6360", 1f),
+                MapEdge("P1_6350", "Escalier_Secours_p1_6_OUEST", 1f), MapEdge("Escalier_Secours_p1_6_OUEST", "P1_6350", 1f),
+                MapEdge("P1_6340", "Escalier_Secours_p1_6_OUEST", 1f), MapEdge("Escalier_Secours_p1_6_OUEST", "P1_6340", 1f),
+                MapEdge("P1_6330", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_6330", 1f),
+                MapEdge("P1_6320", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_6320", 1f),
+                MapEdge("P1_6310", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_6310", 1f),
+                MapEdge("P1_6290", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_6290", 1f),
+
+// BLOC 7
+                MapEdge("P1_7000", "C_OUEST_7010", 1f), MapEdge("C_OUEST_7010", "P1_7000", 1f),
+                MapEdge("P1_7010", "C_OUEST_7010", 1f), MapEdge("C_OUEST_7010", "P1_7010", 1f),
+                MapEdge("P1_7050", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7050", 1f), // Sortie de secours EST
+                MapEdge("P1_7060", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7060", 1f),
+                MapEdge("P1_7070", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7070", 1f),
+                MapEdge("P1_7080", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7080", 1f),
+                MapEdge("P1_7090", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7090", 1f),
+                MapEdge("P1_7100", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7100", 1f),
+                MapEdge("P1_7110", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_7110", 1f),
+                MapEdge("P1_7120", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_7120", 1f), // David Gagnon
+                MapEdge("P1_7130", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_7130", 1f),
+                MapEdge("P1_7140", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_7140", 1f),
+
+// Escalier Secours vers Couloir Central (pour permettre le chemin vers les escaliers/ascenseurs principaux)
+                MapEdge("Escalier_Secours_p1_6_OUEST", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "Escalier_Secours_p1_6_OUEST", 1f),
+                MapEdge("Escalier_Secours_p1_6_EST", "C_OUEST_7010", 1f), MapEdge("C_OUEST_7010", "Escalier_Secours_p1_6_EST", 1f),
+
+// Les arêtes bidirectionnelles fournies dans l'exemple de l'utilisateur
                 MapEdge("P1_7120", "P1_7130",5f),MapEdge("P1_7130", "P1_7120",5f),
                 MapEdge("P1_7130", "P1_7140",2f),MapEdge("P1_7140", "P1_7130",2f),
 
             ),
+
+
+
+
+
             walls = listOf(),
             poi = listOf(),
         )
