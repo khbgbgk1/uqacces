@@ -489,11 +489,13 @@ object UniversityMap {
 
             ),
 
-
-
-
-
             walls = listOf(),
-            poi = listOf(),
+            poi = listOf(
+                PointOfInterest("école de langue française et de culture quebecoise, centre du savoir sur mesure", "P1_2000"),
+                PointOfInterest ("Service des ressources financières", "P1_1080"),
+                PointOfInterest ("Bureau du registraire", "P1_1050"),
+                PointOfInterest ("Centre de référence le cube", "P1_4020"),
+                PointOfInterest ("Location de casier", "P1_1045"),
+            ),
         )
 }

@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -44,12 +43,13 @@ fun MapView(
     val nodesById = remember(mapData.nodes) { mapData.nodes.associateBy { it.id } }
     val backgroundPainter = painterResource(id = mapBackground.resourceId)
     val imageSize = Size(mapBackground.width, mapBackground.height)
+    val textMeasurer = rememberTextMeasurer()
 
     Canvas(
         modifier = modifier
             .fillMaxSize()
             .pointerInput(Unit) {
-                detectTransformGestures { centroid, pan, zoom, _ ->
+                detectTransformGestures { _, pan, zoom, _ ->
                     scale = (scale * zoom).coerceIn(0.5f, 5f)
                     offset += pan
                 }
@@ -57,33 +57,13 @@ fun MapView(
     ) {
         // Calculer le scale initial pour que la map prenne toute la largeur
         if (initialScale == null) {
-            initialScale = size.width / imageSize.width
-            scale = initialScale!!
+            val localInitialScale = size.width / imageSize.width
+            initialScale = localInitialScale
+            scale = localInitialScale
         }
 
         val canvasCenter = center
         val mapCenter = Offset(imageSize.width / 2, imageSize.height / 2)
-
-        // Dessiner le point central fixe AVANT la rotation
-        drawCircle(
-            color = Color.Red,
-            radius = 10f,
-            center = canvasCenter
-        )
-
-        // Dessiner une croix pour mieux voir le point central
-        drawLine(
-            color = Color.Red,
-            start = Offset(canvasCenter.x - 20f, canvasCenter.y),
-            end = Offset(canvasCenter.x + 20f, canvasCenter.y),
-            strokeWidth = 3f
-        )
-        drawLine(
-            color = Color.Red,
-            start = Offset(canvasCenter.x, canvasCenter.y - 20f),
-            end = Offset(canvasCenter.x, canvasCenter.y + 20f),
-            strokeWidth = 3f
-        )
 
         // Appliquer les transformations pour la map
         translate(left = canvasCenter.x, top = canvasCenter.y) {
@@ -91,97 +71,41 @@ fun MapView(
                 scale(scale, scale, pivot = Offset.Zero) {
                     translate(left = offset.x, top = offset.y) {
                         translate(left = -mapCenter.x, top = -mapCenter.y) {
-                            // Dessiner le fond de la map
+                            // --- Tout le dessin de la carte se fait ici ---
+
+                            // 1. Dessiner le fond de la map
                             with(backgroundPainter) {
                                 draw(size = imageSize)
                             }
-    ) {
-        withTransform({
-            translate(left = offset.x, top = offset.y)
-            scale(scale, scale)
-        }) {
-            with(backgroundPainter) {
-               draw(size = imageSize) // Dessine l'image en utilisant les dimensions définies dans MapBackground
-            }
 
-            // Draw nodes
-            if (debugNodes) {
-                mapData.nodes.forEach { node ->
-                    if (node.type.startsWith("Classe", ignoreCase = true)) {
-//                        drawText(
-//                            textMeasurer = textMeasurer,
-//                            text = node.name,
-//                            topLeft = Offset(node.position.x + 10, node.position.y - 30),
-//                            style = TextStyle(
-//                                color = Color.Black,
-//                                fontSize = 12.sp / scale // Adjust font size with zoom
-//                            )
-//                        )
-                        drawCircle(
-                            color = Color.Yellow,
-                            radius = 6f,
-                            center = node.position
-                        )
-                    } else if(node.type.startsWith("Corridor", ignoreCase = true)) {
-                        drawCircle(
-                            color = Color.Gray,
-                            radius = 6f,
-                            center = node.position
-                        )
-                    }
+                            // 2. Dessiner les noeuds et arêtes (debug)
+                            if (debugNodes) {
+                                mapData.nodes.forEach { node ->
+                                    val color = when {
+                                        node.type.startsWith("Classe", ignoreCase = true) -> Color.Yellow
+                                        node.type.startsWith("Corridor", ignoreCase = true) -> Color.Gray
+                                        node.type.startsWith("Ascenseur", ignoreCase = true) -> Color.Green
+                                        node.type.startsWith("Escalier", ignoreCase = true) -> Color.Cyan
+                                        node.type.startsWith("Secours", ignoreCase = true) -> Color.Black
+                                        else -> Color.Red
+                                    }
+                                    drawCircle(color = color, radius = 6f, center = node.position)
+                                }
+                                mapData.edges.forEach { edge ->
+                                    val startNode = nodesById[edge.startNodeId]
+                                    val endNode = nodesById[edge.endNodeId]
+                                    if (startNode != null && endNode != null) {
+                                        drawLine(
+                                            color = Color.Magenta.copy(alpha = 0.6f),
+                                            start = startNode.position,
+                                            end = endNode.position,
+                                            strokeWidth = 3f
+                                        )
+                                    }
+                                }
+                            }
 
-                    else if(node.type.startsWith("Ascenseur", ignoreCase = true)) {
-                        drawCircle(
-                            color = Color.Green,
-                            radius = 6f,
-                            center = node.position
-                        )
-                    }
-
-                    else if(node.type.startsWith("Escalier", ignoreCase = true)) {
-                        drawCircle(
-                            color = Color.Cyan,
-                            radius = 6f,
-                            center = node.position
-                        )
-                    }
-
-                    else if(node.type.startsWith("Secours", ignoreCase = true)) {
-                        drawCircle(
-                            color = Color.Black,
-                            radius = 6f,
-                            center = node.position
-                        )
-                    }
-
-                    else {
-                        // For corridors, entrances, etc., just draw a small circle
-                        drawCircle(
-                            color = Color.Red,
-                            radius = 6f,
-                            center = node.position
-                        )
-                    }
-                }
-                //Draw edges
-                mapData.edges.forEach { edge ->
-                    val startNode = nodesById[edge.startNodeId]
-                    val endNode = nodesById[edge.endNodeId]
-
-                    // Dessine l'arête si les deux nœuds existent
-                    if (startNode != null && endNode != null) {
-                        drawLine(
-                            color = Color.Magenta.copy(alpha = 0.6f), // Couleur subtile pour l'infrastructure
-                            start = startNode.position,
-                            end = endNode.position,
-                            strokeWidth = 3f // Épaisseur de ligne
-                        )
-                    }
-                }
-
-            }
-
-                            // Dessiner le chemin
+                            // 3. Dessiner le chemin
                             if (pathNodeIds.size > 1) {
                                 for (i in 0 until pathNodeIds.size - 1) {
                                     val startNode = nodesById[pathNodeIds[i]]
@@ -195,6 +119,45 @@ fun MapView(
                                             pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f, 10f), 0f)
                                         )
                                     }
+                                }
+                            }
+
+                            // 4. Dessiner les points de départ et d'arrivée
+                            if (pathNodeIds.isNotEmpty()) {
+                                nodesById[pathNodeIds.first()]?.let { node ->
+                                    drawCircle(
+                                        color = Color.Green,
+                                        radius = 12f / scale, // Garde une taille constante à l'écran
+                                        center = node.position
+                                    )
+                                    drawText(
+                                        textMeasurer = textMeasurer,
+                                        text = "Départ",
+                                        topLeft = Offset(node.position.x + 20f / scale, node.position.y - 50f / scale),
+                                        style = TextStyle(
+                                            fontSize = 16.sp / scale,
+                                            color = Color.Black,
+                                            background = Color.White.copy(alpha = 0.7f)
+                                        )
+                                    )
+                                }
+
+                                nodesById[pathNodeIds.last()]?.let { node ->
+                                    drawCircle(
+                                        color = Color.Red,
+                                        radius = 12f / scale, // Garde une taille constante à l'écran
+                                        center = node.position
+                                    )
+                                    drawText(
+                                        textMeasurer = textMeasurer,
+                                        text = "Arrivée",
+                                        topLeft = Offset(node.position.x + 20f / scale, node.position.y - 50f / scale),
+                                        style = TextStyle(
+                                            fontSize = 16.sp / scale,
+                                            color = Color.Black,
+                                            background = Color.White.copy(alpha = 0.7f)
+                                        )
+                                    )
                                 }
                             }
                         }

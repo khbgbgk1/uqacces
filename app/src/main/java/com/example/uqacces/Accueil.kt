@@ -49,6 +49,16 @@ fun Accueil(
         emptyList()
     }
 
+    fun getDisplayName(nodeName: String?): String {
+        if (nodeName == null) return ""
+        val node = universityMapData.nodes.find { it.name.equals(nodeName, ignoreCase = true) }
+        val poi = node?.let { n -> universityMapData.poi.find { p -> p.nodeId == n.id } }
+        return poi?.name ?: nodeName.replace("Classe ", "")
+    }
+
+    val displayStartName = getDisplayName(startNodeName)
+    val displayEndName = getDisplayName(endNodeName)
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets(0),
@@ -57,6 +67,7 @@ fun Accueil(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(bottom =20.dp) //modifier pour remonter la barre en bas
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -69,7 +80,7 @@ fun Accueil(
                     }
                     FilledTonalButton(
                         onClick = {
-                            val text = "Trajet: Départ = $startNodeName → Arrivée = $endNodeName"
+                            val text = "Trajet: Départ = $displayStartName → Arrivée = $displayEndName"
                             val intent = Intent(Intent.ACTION_SEND).apply {
                                 type = "text/plain"
                                 putExtra(Intent.EXTRA_TEXT, text)
@@ -135,7 +146,7 @@ fun Accueil(
                             .padding(16.dp)
                     ) {
                         OutlinedTextField(
-                            value = startNodeName.replace("Classe ", ""),
+                            value = displayStartName,
                             onValueChange = {},
                             label = { Text("Départ") },
                             singleLine = true,
@@ -147,7 +158,7 @@ fun Accueil(
                         Spacer(Modifier.height(10.dp))
 
                         OutlinedTextField(
-                            value = endNodeName.replace("Classe ", ""),
+                            value = displayEndName,
                             onValueChange = {},
                             label = { Text("Arrivée") },
                             singleLine = true,
@@ -159,7 +170,7 @@ fun Accueil(
                 }
             }
 
-            CompassView(heading = heading, modifier = Modifier.align(Alignment.BottomEnd))
+            CompassView(heading = heading, modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 50.dp, end = 16.dp))
         }
     }
 }
