@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -99,6 +100,7 @@ fun Accueil(
     ) { inner ->
         Box(modifier = Modifier
             .fillMaxSize()
+            .background(Color.Gray)
             .padding(inner)) {
 
             MapView(
