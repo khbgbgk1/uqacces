@@ -135,9 +135,9 @@ fun MapView(
                                         text = "Départ",
                                         topLeft = Offset(node.position.x + 20f / scale, node.position.y - 50f / scale),
                                         style = TextStyle(
-                                            fontSize = 16.sp / scale,
-                                            color = Color.Black,
-                                            background = Color.White.copy(alpha = 0.7f)
+                                            fontSize = 20.sp / scale,
+                                            color = Color.Green,
+                                            background = Color.White.copy(alpha = 0.9f)
                                         )
                                     )
                                 }
@@ -153,9 +153,9 @@ fun MapView(
                                         text = "Arrivée",
                                         topLeft = Offset(node.position.x + 20f / scale, node.position.y - 50f / scale),
                                         style = TextStyle(
-                                            fontSize = 16.sp / scale,
-                                            color = Color.Black,
-                                            background = Color.White.copy(alpha = 0.7f)
+                                            fontSize = 20.sp / scale,
+                                            color = Color.Red,
+                                            background = Color.White.copy(alpha = 0.9f)
                                         )
                                     )
                                 }
