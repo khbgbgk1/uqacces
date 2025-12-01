@@ -218,7 +218,7 @@ object UniversityMap {
                 MapNode("P1_7050", "Sortie de secours EST", Offset(270f, 850f), type = "secours"),
                 MapNode("P1_7060", "P1-7060", Offset(221f, 796f), type = "Classe"),
                 MapNode("P1_7070", "P1-7070", Offset(167f, 794f), type = "Classe"),
-                MapNode("P1_7070", "P1-7080", Offset(150f, 794f), type = "Classe"),
+                MapNode("P1_7080", "P1-7080", Offset(150f, 794f), type = "Classe"),
                 MapNode("P1_7090", "P1-7090", Offset(122f, 794f), type = "Classe"),
                 MapNode("P1_7100", "P1-7100", Offset(117f, 794f), type = "Local"),
                 MapNode("P1_7110", "P1-7110", Offset(117f, 732f), type = "Classe"),
@@ -303,9 +303,6 @@ object UniversityMap {
 
                 MapEdge("C_OUEST_7010", "C_OUEST_7050", 1f),
                 MapEdge("C_OUEST_7050", "C_OUEST_7010", 1f),
-
-                MapEdge("C_OUEST_7060", "C_OUEST_7050", 1f),
-                MapEdge("C_OUEST_7050", "C_OUEST_7060", 1f),
 
 
                 // Couloir Nord-Est
@@ -424,6 +421,7 @@ object UniversityMap {
                 MapEdge("P1_5090", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "P1_5090", 1f),
                 MapEdge("P1_5100", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "P1_5100", 1f),
 
+                MapEdge("Escalier_Secours_p1_6_OUEST", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "Escalier_Secours_p1_6_OUEST", 1f),
                 MapEdge("P1_6370", "Escalier_Secours_p1_6_OUEST", 1f), MapEdge("Escalier_Secours_p1_6_OUEST", "P1_6370", 1f),
                 MapEdge("P1_6360", "Escalier_Secours_p1_6_OUEST", 1f), MapEdge("Escalier_Secours_p1_6_OUEST", "P1_6360", 1f),
                 MapEdge("P1_6360", "P1_6370", 1f), MapEdge("P1_6370", "P1_6360", 1f),
@@ -457,11 +455,6 @@ object UniversityMap {
                 MapEdge("P1_6180", "C_OUEST_6180", 1f), MapEdge("C_OUEST_6180", "P1_6180", 1f),
                 MapEdge("P1_6180", "C_OUEST_7010", 1f), MapEdge("C_OUEST_7010", "P1_6180", 1f),
 
-// BLOC 6 (Côté EST du couloir)
-                MapEdge("P1_6330", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_6330", 1f),
-                MapEdge("P1_6320", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_6320", 1f),
-                MapEdge("P1_6310", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_6310", 1f),
-                MapEdge("P1_6290", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_6290", 1f),
 
                 // couloir sud-Est
                 MapEdge("P1_7000", "ACCEUIL", 1f), MapEdge("ACCEUIL", "P1_7000", 1f),
@@ -470,22 +463,27 @@ object UniversityMap {
                 MapEdge("P1_7010", "C_OUEST_7010", 1f), MapEdge("C_OUEST_7010", "P1_7010", 1f),
                 MapEdge("P1_7050", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7050", 1f), // Sortie de secours EST
                 MapEdge("P1_7060", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7060", 1f),
-                MapEdge("P1_7070", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7070", 1f),
-                MapEdge("P1_7080", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7080", 1f),
-                MapEdge("P1_7090", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7090", 1f),
-                MapEdge("P1_7100", "C_OUEST_7050", 1f), MapEdge("C_OUEST_7050", "P1_7100", 1f),
+                MapEdge("P1_7070", "P1_7060", 1f), MapEdge("P1_7060", "P1_7070", 1f),
+                MapEdge("P1_7080", "P1_7070", 1f), MapEdge("P1_7070", "P1_7080", 1f),
+                MapEdge("P1_7090", "P1_7080", 1f), MapEdge("P1_7080", "P1_7090", 1f),
+                MapEdge("P1_7100", "P1_7090", 1f), MapEdge("P1_7090", "P1_7100", 1f),
+                MapEdge("P1_7110", "P1_7090", 1f), MapEdge("P1_7090", "P1_7110", 1f),
+                MapEdge("P1_7110", "P1_7100", 1f), MapEdge("P1_7100", "P1_7110", 1f),
+
                 MapEdge("P1_7110", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_7110", 1f),
-                MapEdge("P1_7120", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_7120", 1f), // David Gagnon
-                MapEdge("P1_7130", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_7130", 1f),
-                MapEdge("P1_7140", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_7140", 1f),
+                MapEdge("P1_6310", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_6310", 1f),
+                MapEdge("P1_6290", "Escalier_Secours_p1_6_EST", 1f), MapEdge("Escalier_Secours_p1_6_EST", "P1_6290", 1f),
+                MapEdge("P1_6290", "P1_6310", 1f), MapEdge("P1_6310", "P1_6290", 1f),
 
-// Escalier Secours vers Couloir Central (pour permettre le chemin vers les escaliers/ascenseurs principaux)
-                MapEdge("Escalier_Secours_p1_6_OUEST", "C_OUEST_5090", 1f), MapEdge("C_OUEST_5090", "Escalier_Secours_p1_6_OUEST", 1f),
-                MapEdge("Escalier_Secours_p1_6_EST", "C_OUEST_7010", 1f), MapEdge("C_OUEST_7010", "Escalier_Secours_p1_6_EST", 1f),
+                MapEdge("P1_6320", "P1_7110", 1f), MapEdge("P1_7110", "P1_6320", 1f),
+                MapEdge("P1_6320", "P1_6330", 1f), MapEdge("P1_6330", "P1_6320", 1f),
+                MapEdge("P1_6320", "P1_7120", 1f), MapEdge("P1_7120", "P1_6320", 1f),
+                MapEdge("P1_6330", "P1_7130", 1f), MapEdge("P1_7130", "P1_6330", 1f),
+                MapEdge("P1_6330", "P1_7120", 1f), MapEdge("P1_7120", "P1_6330", 1f),
+                MapEdge("P1_7120", "P1_7110", 1f), MapEdge("P1_7110", "P1_7120", 1f),
+                MapEdge("P1_7130", "P1_7120", 1f), MapEdge("P1_7120", "P1_7130", 1f),
+                MapEdge("P1_7140", "P1_7130", 1f), MapEdge("P1_7130", "P1_7140", 1f),
 
-// Les arêtes bidirectionnelles fournies dans l'exemple de l'utilisateur
-                MapEdge("P1_7120", "P1_7130",5f),MapEdge("P1_7130", "P1_7120",5f),
-                MapEdge("P1_7130", "P1_7140",2f),MapEdge("P1_7140", "P1_7130",2f),
 
             ),
 
