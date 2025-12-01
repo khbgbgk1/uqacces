@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
                     // Route for starting a NEW search (select arrival first)
                     composable("rechercheArrivee") {
                         PointArriveeScreen(
-                            onBack = { navController.popBackStack() },
+                            onBack = { navController.navigate("accueil") },
                             onSubmit = { arrivee ->
                                 val encodedArrivee = URLEncoder.encode(arrivee, "UTF-8")
                                 // Go to select departure
@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val depart = URLDecoder.decode(backStackEntry.arguments?.getString("depart").orEmpty(), "UTF-8")
                         PointArriveeScreen(
-                            onBack = { navController.popBackStack() },
+                            onBack = { navController.navigate("accueil") },
                             onSubmit = { arrivee ->
                                 // We now have both depart and arrivee, go straight to map
                                 val encodedDepart = URLEncoder.encode(depart, "UTF-8")
@@ -100,7 +100,7 @@ class MainActivity : ComponentActivity() {
                         PointDepartScreen(
                             initialDepart = d,
                             initialArrive = a,
-                            onBack = { navController.popBackStack() },
+                            onBack = { navController.navigate("accueil") },
                             onDone = { depart, arrive ->
                                 if (depart.isNotBlank() && arrive.isNotBlank()) {
                                     val encodedDepart = URLEncoder.encode(depart, "UTF-8")
