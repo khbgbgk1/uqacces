@@ -88,7 +88,7 @@ fun MapView(
                         )
                     } else if(node.type.startsWith("Corridor", ignoreCase = true)) {
                         drawCircle(
-                            color = Color.Magenta,
+                            color = Color.Gray,
                             radius = 6f,
                             center = node.position
                         )

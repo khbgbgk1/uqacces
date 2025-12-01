@@ -65,23 +65,35 @@ object UniversityMap {
                 MapNode("ENTREE_NORDD_EST", "Entree Rio Tinto", Offset(920f, 720f)),
                 MapNode("ENTREE_EST", "Entrée Est", Offset(460f, 830f)),
                 MapNode("ACCEUIL", "ACCEUIL", Offset(468f, 760f)),
-    //
-    //            // Main Corridor Nodes
-    //            MapNode("C_OUEST_JONCTION", "Corridor", Offset(450f, 200f)),
-    //            MapNode("C_BLOC5_HAUT", "Corridor", Offset(350f, 200f)),
-    //            MapNode("C_BLOC5_OUEST", "Corridor", Offset(150f, 200f)),
-    //            MapNode("C_BLOC6_HAUT", "Corridor", Offset(350f, 400f)),
-    //            MapNode("C_BLOC6_BAS", "Corridor", Offset(350f, 650f)),
-    //            MapNode("C_BLOC7_BAS", "Corridor", Offset(450f, 750f)),
-    //            MapNode("C_BLOC7_OUEST", "Corridor", Offset(150f, 750f)),
-    //            MapNode("C_EST_JONCTION", "Corridor", Offset(600f, 750f)),
-    //            MapNode("C_CENTRAL", "Corridor", Offset(550f, 450f)),
-    //            MapNode("C_BLOC4_HAUT", "Corridor", Offset(550f, 250f)),
-    //            MapNode("C_BLOC3_HAUT", "Corridor", Offset(700f, 250f)),
-    //            MapNode("C_BLOC2_MILIEU", "Corridor", Offset(700f, 450f)),
-    //            MapNode("C_BLOC1_BAS", "Corridor", Offset(700f, 700f)),
-    
-    
+
+                // Main Corridor Nodes (not visible)
+                MapNode("C_EST_Centre_Accueil", "Corridor", Offset(445f, 712f),type = "Corridor"),
+                MapNode("C_EST_Centre_Escalier", "Corridor", Offset(445f, 680f),type = "Corridor"),
+                MapNode("C_OUEST_Centre_Escalier", "Corridor", Offset(435f, 420f),type = "Corridor"),
+                MapNode("C_OUEST_Centre_Escalier", "Corridor", Offset(460f, 335f),type = "Corridor"),
+
+                MapNode("C_OUEST_1060", "Corridor", Offset(762f, 720f),type = "Corridor"),
+                MapNode("C_OUEST_1080", "Corridor", Offset(840f, 720f),type = "Corridor"),
+
+                MapNode("C_OUEST_3010", "Corridor", Offset(762f, 370f),type = "Corridor"),
+
+                MapNode("C_OUEST_4080", "Corridor", Offset(762f, 620f),type = "Corridor"),
+                MapNode("C_EST_4120", "Corridor", Offset(762f, 510f),type = "Corridor"),
+                MapNode("C_EST_4180", "Corridor", Offset(762f, 458f),type = "Corridor"),
+
+                MapNode("C_OUEST_5050", "Corridor", Offset(290f, 295f),type = "Corridor"),
+                MapNode("C_OUEST_5050", "Corridor", Offset(265f, 295f),type = "Corridor"),
+                MapNode("C_OUEST_5090", "Corridor", Offset(117f, 375f),type = "Corridor"),
+
+                MapNode("C_EST_6_Toilette", "Corridor", Offset(370f, 680f),type = "Corridor"),
+                MapNode("C_OUEST_6_Toilette", "Corridor", Offset(370f, 420f),type = "Corridor"),
+                MapNode("C_OUEST_6180", "Corridor", Offset(265f, 650f),type = "Corridor"),
+
+
+                MapNode("C_OUEST_7050", "Corridor", Offset(265f, 794f),type = "Corridor"),
+                MapNode("C_OUEST_7010", "Corridor", Offset(265f, 760f),type = "Corridor"),
+
+
     
                 //escaliers
                 MapNode("Escalier_p1_4_OUEST", "Escalier_p1_4_OUEST", Offset(490f, 380f), type = "Escalier"),
@@ -221,8 +233,8 @@ object UniversityMap {
                 Professor("David Gagnon", "P1_7120")
             ),
             edges = listOf(
-                MapEdge("P1_7120", "P1_7130"),
-                MapEdge("P1_7130", "P1_7140"),
+                MapEdge("P1_7120", "P1_7130",5f),MapEdge("P1_7130", "P1_7120",5f),
+                MapEdge("P1_7130", "P1_7140",2f),MapEdge("P1_7140", "P1_7130",2f),
     //            MapEdge("ASCENSEUR_CENTRAL", "C_CENTRAL"), MapEdge("C_CENTRAL", "ASCENSEUR_CENTRAL"),
     //            MapEdge("ENTREE_OUEST", "C_OUEST_JONCTION"), MapEdge("C_OUEST_JONCTION", "ENTREE_OUEST"),
     //            MapEdge("C_OUEST_JONCTION", "C_BLOC5_HAUT"), MapEdge("C_BLOC5_HAUT", "C_OUEST_JONCTION"),
