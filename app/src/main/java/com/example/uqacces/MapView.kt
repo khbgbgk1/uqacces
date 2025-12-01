@@ -12,8 +12,13 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.sp
 
 /**
  * A composable that renders the map and handles user gestures for zooming and panning.
@@ -90,26 +95,91 @@ fun MapView(
                             with(backgroundPainter) {
                                 draw(size = imageSize)
                             }
+    ) {
+        withTransform({
+            translate(left = offset.x, top = offset.y)
+            scale(scale, scale)
+        }) {
+            with(backgroundPainter) {
+               draw(size = imageSize) // Dessine l'image en utilisant les dimensions définies dans MapBackground
+            }
 
-                            // Dessiner les nœuds en mode debug
-                            if (debugNodes) {
-                                mapData.nodes.forEach { node ->
-                                    val color = when {
-                                        node.type.startsWith("Classe", ignoreCase = true) -> Color.Yellow
-                                        node.type.startsWith("Corridor", ignoreCase = true) -> Color.Magenta
-                                        node.type.startsWith("Ascenseur", ignoreCase = true) -> Color.Green
-                                        node.type.startsWith("Escalier", ignoreCase = true) -> Color.Cyan
-                                        node.type.startsWith("Secours", ignoreCase = true) -> Color.Black
-                                        else -> Color.Red
-                                    }
+            // Draw nodes
+            if (debugNodes) {
+                mapData.nodes.forEach { node ->
+                    if (node.type.startsWith("Classe", ignoreCase = true)) {
+//                        drawText(
+//                            textMeasurer = textMeasurer,
+//                            text = node.name,
+//                            topLeft = Offset(node.position.x + 10, node.position.y - 30),
+//                            style = TextStyle(
+//                                color = Color.Black,
+//                                fontSize = 12.sp / scale // Adjust font size with zoom
+//                            )
+//                        )
+                        drawCircle(
+                            color = Color.Yellow,
+                            radius = 6f,
+                            center = node.position
+                        )
+                    } else if(node.type.startsWith("Corridor", ignoreCase = true)) {
+                        drawCircle(
+                            color = Color.Gray,
+                            radius = 6f,
+                            center = node.position
+                        )
+                    }
 
-                                    drawCircle(
-                                        color = color,
-                                        radius = 6f,
-                                        center = node.position
-                                    )
-                                }
-                            }
+                    else if(node.type.startsWith("Ascenseur", ignoreCase = true)) {
+                        drawCircle(
+                            color = Color.Green,
+                            radius = 6f,
+                            center = node.position
+                        )
+                    }
+
+                    else if(node.type.startsWith("Escalier", ignoreCase = true)) {
+                        drawCircle(
+                            color = Color.Cyan,
+                            radius = 6f,
+                            center = node.position
+                        )
+                    }
+
+                    else if(node.type.startsWith("Secours", ignoreCase = true)) {
+                        drawCircle(
+                            color = Color.Black,
+                            radius = 6f,
+                            center = node.position
+                        )
+                    }
+
+                    else {
+                        // For corridors, entrances, etc., just draw a small circle
+                        drawCircle(
+                            color = Color.Red,
+                            radius = 6f,
+                            center = node.position
+                        )
+                    }
+                }
+                //Draw edges
+                mapData.edges.forEach { edge ->
+                    val startNode = nodesById[edge.startNodeId]
+                    val endNode = nodesById[edge.endNodeId]
+
+                    // Dessine l'arête si les deux nœuds existent
+                    if (startNode != null && endNode != null) {
+                        drawLine(
+                            color = Color.Magenta.copy(alpha = 0.6f), // Couleur subtile pour l'infrastructure
+                            start = startNode.position,
+                            end = endNode.position,
+                            strokeWidth = 3f // Épaisseur de ligne
+                        )
+                    }
+                }
+
+            }
 
                             // Dessiner le chemin
                             if (pathNodeIds.size > 1) {
