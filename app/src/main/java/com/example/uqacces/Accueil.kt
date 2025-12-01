@@ -116,7 +116,7 @@ fun Accueil(
                 OutlinedTextField(
                     value = TextFieldValue(""),
                     onValueChange = {},
-                    placeholder = { Text("Arrivée") },
+                    placeholder = { Text("Destination") },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                     singleLine = true,
                     shape = RoundedCornerShape(28.dp),

@@ -69,7 +69,8 @@ class MainActivity : ComponentActivity() {
                                 val encodedArrivee = URLEncoder.encode(arrivee, "UTF-8")
                                 // Go to select departure
                                 navController.navigate("rechercheDepart/${URLEncoder.encode("", "UTF-8")}/$encodedArrivee")
-                            }
+                            },
+                            DestinationText = "Destination",
                         )
                     }
 
@@ -88,7 +89,8 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate("accueil/$encodedDepart/$encodedArrivee") {
                                     popUpTo("accueil") { inclusive = true }
                                 }
-                            }
+                            },
+                            DestinationText = "Destination",
                         )
                     }
 
@@ -107,7 +109,8 @@ class MainActivity : ComponentActivity() {
                                         popUpTo("accueil") { inclusive = true }
                                     }
                                 }
-                            }
+                            },
+                            DestinationText = "Point de départ",
                         )
                     }
 

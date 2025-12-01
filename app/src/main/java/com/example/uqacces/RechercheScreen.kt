@@ -26,7 +26,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PointArriveeScreen(
     onBack: () -> Unit,
-    onSubmit: (String) -> Unit
+    onSubmit: (String) -> Unit,
+    DestinationText : String = "Destination"
 ) {
     var query by remember { mutableStateOf("") }
     var selectedTab by remember { mutableStateOf(0) } // 0: POI, 1: Profs, 2: Salles
@@ -48,7 +49,7 @@ fun PointArriveeScreen(
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
-                placeholder = { Text("Votre recherche") },
+                placeholder = { Text(DestinationText) },
                 leadingIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Retour") } },
                 singleLine = true,
                 shape = MaterialTheme.shapes.large,
@@ -105,7 +106,8 @@ fun PointDepartScreen(
     initialDepart: String,
     initialArrive: String,
     onBack: () -> Unit,
-    onDone: (String, String) -> Unit
+    onDone: (String, String) -> Unit,
+    DestinationText : String = "Point de départ"
 ) {
     var query by remember { mutableStateOf(initialDepart) }
     var selectedTab by remember { mutableStateOf(0) } // 0: POI, 1: Profs, 2: Salles
@@ -127,7 +129,7 @@ fun PointDepartScreen(
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
-                placeholder = { Text("Votre recherche") },
+                placeholder = { Text(DestinationText) },
                 leadingIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Retour") } },
                 singleLine = true,
                 shape = MaterialTheme.shapes.large,
