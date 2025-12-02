@@ -98,9 +98,8 @@ fun PointArriveeScreen(
                         val filteredProfs = profs.filter { prof -> prof.name.contains(query, ignoreCase = true) }
                         items(filteredProfs) { prof ->
                             val roomName = mapData.nodes.find { room -> room.id == prof.officeNodeId }?.name ?: "N/A"
-                            val roomNumber = roomName.replace("Classe ", "")
                             ListRow(
-                                label = "${prof.name} ($roomNumber)",
+                                label = "${prof.name} ",
                                 onClick = { submitAndNavigate(roomName) }
                             )
                         }
