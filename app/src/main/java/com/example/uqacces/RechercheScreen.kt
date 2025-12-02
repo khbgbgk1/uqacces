@@ -39,10 +39,29 @@ fun PointArriveeScreen(
         }
     }
 
-    // Correctly remembered lists at the top-level of the composable
     val pois = remember { mapData.poi }
     val profs = remember { mapData.professors }
     val salles = remember { mapData.nodes.filter { node -> node.type == "Classe" } }
+
+    LaunchedEffect(query) {
+        if (query.isNotBlank()) {
+            // Priorité 1: Points d'intérêt
+            if (pois.any { it.name.contains(query, ignoreCase = true) }) {
+                if (selectedTab != 0) selectedTab = 0
+                return@LaunchedEffect
+            }
+            // Priorité 2: Professeurs
+            if (profs.any { it.name.contains(query, ignoreCase = true) }) {
+                if (selectedTab != 1) selectedTab = 1
+                return@LaunchedEffect
+            }
+            // Priorité 3: Salles
+            if (salles.any { it.name.replace("Classe ", "").contains(query, ignoreCase = true) }) {
+                if (selectedTab != 2) selectedTab = 2
+                return@LaunchedEffect
+            }
+        }
+    }
 
     Scaffold(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(it)) {
@@ -119,10 +138,29 @@ fun PointDepartScreen(
         }
     }
 
-    // Correctly remembered lists, recomposed if initialArrive changes
     val pois = remember(initialArrive) { mapData.poi.filter { poi -> mapData.nodes.find { node -> node.id == poi.nodeId }?.name != initialArrive } }
     val profs = remember { mapData.professors }
     val salles = remember(initialArrive) { mapData.nodes.filter { n -> n.type == "Classe" && n.name != initialArrive } }
+
+    LaunchedEffect(query) {
+        if (query.isNotBlank()) {
+            // Priorité 1: Points d'intérêt
+            if (pois.any { it.name.contains(query, ignoreCase = true) }) {
+                if (selectedTab != 0) selectedTab = 0
+                return@LaunchedEffect
+            }
+            // Priorité 2: Professeurs
+            if (profs.any { it.name.contains(query, ignoreCase = true) }) {
+                if (selectedTab != 1) selectedTab = 1
+                return@LaunchedEffect
+            }
+            // Priorité 3: Salles
+            if (salles.any { it.name.replace("Classe ", "").contains(query, ignoreCase = true) }) {
+                if (selectedTab != 2) selectedTab = 2
+                return@LaunchedEffect
+            }
+        }
+    }
 
     Scaffold(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(it)) {

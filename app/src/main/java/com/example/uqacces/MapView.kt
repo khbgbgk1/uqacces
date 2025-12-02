@@ -67,7 +67,7 @@ fun MapView(
 
         // Appliquer les transformations pour la map
         translate(left = canvasCenter.x, top = canvasCenter.y) {
-            rotate(degrees = 0f, pivot = Offset.Zero) { //heading
+            rotate(degrees = 0f, pivot = Offset.Zero) { //heading //modifier cette ligne pour que la map ne tourne pas
                 scale(scale, scale, pivot = Offset.Zero) {
                     translate(left = offset.x, top = offset.y) {
                         translate(left = -mapCenter.x, top = -mapCenter.y) {
