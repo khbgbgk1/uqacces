@@ -19,6 +19,12 @@ import androidx.compose.ui.platform.LocalContext
  */
 @Composable
 fun rememberCompassHeading(): State<Float> {
+    val isInPreview = androidx.compose.ui.platform.LocalInspectionMode.current
+    if (isInPreview) {
+        // Si nous sommes en Preview, retournons une valeur statique pour ne pas crasher.
+        return remember { mutableStateOf(0f) }
+    }
+
     val context = LocalContext.current
     val sensorManager = remember { context.getSystemService(Context.SENSOR_SERVICE) as SensorManager }
     val accelerometer = remember { sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) }
