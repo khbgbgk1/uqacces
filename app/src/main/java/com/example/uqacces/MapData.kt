@@ -512,7 +512,7 @@ object UniversityMap {
                 //sorties de secours
                 PointOfInterest("Sortie de secours Ouest", "Sortie de secours OUEST"),
                 PointOfInterest("Sortie de secours Est", "Sortie de secours EST"),
-                PointOfInterest("Local de sécurité", "P1-4260"),
+                PointOfInterest("Local de sécurité", "P1_4260"),
 
                 //ascenseurs
                 PointOfInterest("Ascenseur P1-4", "Ascenseur_p1_4"),
@@ -520,8 +520,8 @@ object UniversityMap {
                 PointOfInterest("Ascenseur P1-6 Est", "Ascenseur_p1_6_EST"),
 
                 //toilettes
-                PointOfInterest("Toilettes femmes", "P1-2070"),
-                PointOfInterest("Toilettes hommes", "P1-2060"),
+                PointOfInterest("Toilettes femmes", "P1_2070"),
+                PointOfInterest("Toilettes hommes", "P1_2060"),
                 PointOfInterest("Toilettes mixtes Ouest", "Toilette_P1_6_OUEST"),
                 PointOfInterest("Toilettes mixtes Est", "Toilette_P1_6_EST"),
 
