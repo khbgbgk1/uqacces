@@ -59,7 +59,9 @@ fun Accueil(
         // Chercher si c'est le bureau d'un prof
         val professor = universityMapData.professors.find { it.officeNodeId == node.id }
         if (professor != null) {
-            return professor.name
+            val roomName = professor.officeNodeId
+            val roomNumber = roomName.replace("Classe ", "")
+            return "${professor.name} ($roomNumber)"
         }
 
         // Chercher si c'est un point d'intérêt

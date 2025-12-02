@@ -98,8 +98,9 @@ fun PointArriveeScreen(
                         val filteredProfs = profs.filter { prof -> prof.name.contains(query, ignoreCase = true) }
                         items(filteredProfs) { prof ->
                             val roomName = mapData.nodes.find { room -> room.id == prof.officeNodeId }?.name ?: "N/A"
+                            val roomNumber = roomName.replace("Classe ", "")
                             ListRow(
-                                label = "${prof.name} ",
+                                label = "${prof.name}  ($roomNumber)",
                                 onClick = { submitAndNavigate(roomName) }
                             )
                         }
@@ -195,8 +196,9 @@ fun PointDepartScreen(
                         items(filtered) { prof ->
                             val roomName = mapData.nodes.find { node -> node.id == prof.officeNodeId }?.name ?: "N/A"
                             if (roomName != initialArrive) {
+                                val roomNumber = roomName.replace("Classe ", "")
                                 ListRow(
-                                    label = "${prof.name} (${roomName.replace("Classe ", "")})",
+                                    label = "${prof.name} ($roomNumber)",
                                     onClick = { submitAndNavigate(roomName) }
                                 )
                             }
