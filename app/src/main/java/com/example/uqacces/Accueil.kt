@@ -85,17 +85,17 @@ fun Accueil(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 40.dp) //modifier pour remonter la barre en bas
+                        .height(90.dp)  
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    FilledTonalButton(onClick = onSettingsClick, shape = RoundedCornerShape(14.dp)) {
+                    /*FilledTonalButton(onClick = onSettingsClick, shape = RoundedCornerShape(14.dp)) {
                         Icon(Icons.Default.Settings, contentDescription = null)
                         Spacer(Modifier.width(8.dp))
                         Text("Réglages")
-                    }
+                    }*/
                     FilledTonalButton(
                         onClick = {
                             val text = "Trajet: Départ = $displayStartName → Arrivée = $displayEndName"
