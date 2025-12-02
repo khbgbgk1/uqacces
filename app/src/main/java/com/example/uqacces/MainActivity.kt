@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.uqacces.ui.theme.UQACCESTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import java.net.URLDecoder
@@ -31,7 +32,8 @@ class MainActivity : ComponentActivity() {
                             onSearchClick = { navController.navigate("rechercheArrivee") },
                             onSettingsClick = { navController.navigate("parametres") },
                             onEditDepart = { /* Should not happen */ },
-                            onEditArrivee = { /* Should not happen */ }
+                            onEditArrivee = { /* Should not happen */ },
+                            onSwap = {},
                         )
                     }
 
@@ -57,19 +59,25 @@ class MainActivity : ComponentActivity() {
                                 val encodedDepart = URLEncoder.encode(startNodeName, "UTF-8")
                                 // Navigate to the arrival search screen, but pass the existing departure point
                                 navController.navigate("rechercheArrivee/$encodedDepart")
-                            }
+                            },
+                            onSwap = {navController.swapAndNavigateHome(
+                                currentDepart = startNodeName,
+                                currentArrivee = endNodeName,
+                                currentRoute = "accueil/{startNodeName}/{endNodeName}"
+                            )},
                         )
                     }
 
                     // Route for starting a NEW search (select arrival first)
                     composable("rechercheArrivee") {
                         PointArriveeScreen(
-                            onBack = { navController.popBackStack() },
+                            onBack = { navController.navigate("accueil") },
                             onSubmit = { arrivee ->
                                 val encodedArrivee = URLEncoder.encode(arrivee, "UTF-8")
                                 // Go to select departure
                                 navController.navigate("rechercheDepart/${URLEncoder.encode("", "UTF-8")}/$encodedArrivee")
-                            }
+                            },
+                            DestinationText = "Destination",
                         )
                     }
 
@@ -80,7 +88,7 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val depart = URLDecoder.decode(backStackEntry.arguments?.getString("depart").orEmpty(), "UTF-8")
                         PointArriveeScreen(
-                            onBack = { navController.popBackStack() },
+                            onBack = { navController.navigate("accueil") },
                             onSubmit = { arrivee ->
                                 // We now have both depart and arrivee, go straight to map
                                 val encodedDepart = URLEncoder.encode(depart, "UTF-8")
@@ -88,7 +96,8 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate("accueil/$encodedDepart/$encodedArrivee") {
                                     popUpTo("accueil") { inclusive = true }
                                 }
-                            }
+                            },
+                            DestinationText = "Destination",
                         )
                     }
 
@@ -98,7 +107,7 @@ class MainActivity : ComponentActivity() {
                         PointDepartScreen(
                             initialDepart = d,
                             initialArrive = a,
-                            onBack = { navController.popBackStack() },
+                            onBack = { navController.navigate("accueil") },
                             onDone = { depart, arrive ->
                                 if (depart.isNotBlank() && arrive.isNotBlank()) {
                                     val encodedDepart = URLEncoder.encode(depart, "UTF-8")
@@ -107,7 +116,8 @@ class MainActivity : ComponentActivity() {
                                         popUpTo("accueil") { inclusive = true }
                                     }
                                 }
-                            }
+                            },
+                            DestinationText = "Point de départ",
                         )
                     }
 
@@ -120,5 +130,25 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+}
+
+fun NavController.swapAndNavigateHome(
+    currentDepart: String,
+    currentArrivee: String,
+    currentRoute: String
+) {
+    // 1. Permuter les valeurs
+    val newDepart = currentArrivee
+    val newArrivee = currentDepart
+
+    // 2. Encoder
+    val encodedNewDepart = URLEncoder.encode(newDepart, "UTF-8")
+    val encodedNewArrivee = URLEncoder.encode(newArrivee, "UTF-8")
+
+    // 3. Naviguer vers le nouveau chemin
+    this.navigate("accueil/$encodedNewDepart/$encodedNewArrivee") {
+        // Remplacer l'entrée actuelle dans la pile de navigation
+        popUpTo(currentRoute) { inclusive = true }
     }
 }

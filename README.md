@@ -2,7 +2,3 @@
 Thibaut BISAGNI
 Killiane KEUNGUEU
 Clotilde TOUNIAN
-
-
-
-aaaa

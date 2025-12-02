@@ -68,7 +68,7 @@ fun ArriveScreen(
                     .then(gestureModifier)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.plan_1),
+                    painter = painterResource(id = R.drawable.ppplan_1),
                     contentDescription = "Plan de classe",
                     contentScale = ContentScale.FillHeight,
                     modifier = Modifier

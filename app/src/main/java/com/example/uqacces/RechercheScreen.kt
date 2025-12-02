@@ -26,7 +26,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PointArriveeScreen(
     onBack: () -> Unit,
-    onSubmit: (String) -> Unit
+    onSubmit: (String) -> Unit,
+    DestinationText : String = "Destination"
 ) {
     var query by remember { mutableStateOf("") }
     var selectedTab by remember { mutableStateOf(0) } // 0: POI, 1: Profs, 2: Salles
@@ -38,17 +39,36 @@ fun PointArriveeScreen(
         }
     }
 
-    // Correctly remembered lists at the top-level of the composable
-    val pois = remember { mapData.nodes.filter { node -> node.type != "Classe" && node.type != "Corridor" } }
+    val pois = remember { mapData.poi }
     val profs = remember { mapData.professors }
     val salles = remember { mapData.nodes.filter { node -> node.type == "Classe" } }
+
+    LaunchedEffect(query) {
+        if (query.isNotBlank()) {
+            // Priorité 1: Points d'intérêt
+            if (pois.any { it.name.contains(query, ignoreCase = true) }) {
+                if (selectedTab != 0) selectedTab = 0
+                return@LaunchedEffect
+            }
+            // Priorité 2: Professeurs
+            if (profs.any { it.name.contains(query, ignoreCase = true) }) {
+                if (selectedTab != 1) selectedTab = 1
+                return@LaunchedEffect
+            }
+            // Priorité 3: Salles
+            if (salles.any { it.name.replace("Classe ", "").contains(query, ignoreCase = true) }) {
+                if (selectedTab != 2) selectedTab = 2
+                return@LaunchedEffect
+            }
+        }
+    }
 
     Scaffold(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(it)) {
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
-                placeholder = { Text("Votre recherche") },
+                placeholder = { Text(DestinationText) },
                 leadingIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Retour") } },
                 singleLine = true,
                 shape = MaterialTheme.shapes.large,
@@ -70,7 +90,8 @@ fun PointArriveeScreen(
                     0 -> { // Points of Interest
                         val filteredPois = pois.filter { poi -> poi.name.contains(query, ignoreCase = true) }
                         items(filteredPois) { poi ->
-                            ListRow(label = poi.name, onClick = { submitAndNavigate(poi.name) })
+                            val nodeName = mapData.nodes.find { node -> node.id == poi.nodeId }?.name ?: "N/A"
+                            ListRow(label = poi.name, onClick = { submitAndNavigate(nodeName) })
                         }
                     }
                     1 -> { // Professors
@@ -104,7 +125,8 @@ fun PointDepartScreen(
     initialDepart: String,
     initialArrive: String,
     onBack: () -> Unit,
-    onDone: (String, String) -> Unit
+    onDone: (String, String) -> Unit,
+    DestinationText : String = "Point de départ"
 ) {
     var query by remember { mutableStateOf(initialDepart) }
     var selectedTab by remember { mutableStateOf(0) } // 0: POI, 1: Profs, 2: Salles
@@ -116,17 +138,36 @@ fun PointDepartScreen(
         }
     }
 
-    // Correctly remembered lists, recomposed if initialArrive changes
-    val pois = remember(initialArrive) { mapData.nodes.filter { n -> n.type != "Classe" && n.type != "Corridor" && n.name != initialArrive } }
+    val pois = remember(initialArrive) { mapData.poi.filter { poi -> mapData.nodes.find { node -> node.id == poi.nodeId }?.name != initialArrive } }
     val profs = remember { mapData.professors }
     val salles = remember(initialArrive) { mapData.nodes.filter { n -> n.type == "Classe" && n.name != initialArrive } }
+
+    LaunchedEffect(query) {
+        if (query.isNotBlank()) {
+            // Priorité 1: Points d'intérêt
+            if (pois.any { it.name.contains(query, ignoreCase = true) }) {
+                if (selectedTab != 0) selectedTab = 0
+                return@LaunchedEffect
+            }
+            // Priorité 2: Professeurs
+            if (profs.any { it.name.contains(query, ignoreCase = true) }) {
+                if (selectedTab != 1) selectedTab = 1
+                return@LaunchedEffect
+            }
+            // Priorité 3: Salles
+            if (salles.any { it.name.replace("Classe ", "").contains(query, ignoreCase = true) }) {
+                if (selectedTab != 2) selectedTab = 2
+                return@LaunchedEffect
+            }
+        }
+    }
 
     Scaffold(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(it)) {
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
-                placeholder = { Text("Votre recherche") },
+                placeholder = { Text(DestinationText) },
                 leadingIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Retour") } },
                 singleLine = true,
                 shape = MaterialTheme.shapes.large,
@@ -146,7 +187,8 @@ fun PointDepartScreen(
                     0 -> { // POI
                         val filtered = pois.filter { p -> p.name.contains(query, ignoreCase = true) }
                         items(filtered) { poi ->
-                            ListRow(label = poi.name, onClick = { submitAndNavigate(poi.name) })
+                            val nodeName = mapData.nodes.find { node -> node.id == poi.nodeId }?.name ?: "N/A"
+                            ListRow(label = poi.name, onClick = { submitAndNavigate(nodeName) })
                         }
                     }
                     1 -> { // Professors
