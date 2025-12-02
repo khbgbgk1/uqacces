@@ -85,7 +85,7 @@ fun Accueil(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(90.dp)  
+                        .height(110.dp)
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -104,8 +104,10 @@ fun Accueil(
                                 putExtra(Intent.EXTRA_TEXT, text)
                             }
                             context.startActivity(Intent.createChooser(intent, "Partager le trajet"))
+
                         },
-                        shape = RoundedCornerShape(14.dp)
+                        shape = RoundedCornerShape(14.dp),
+                        modifier = Modifier.padding(bottom = 40.dp)
                     ) {
                         Icon(Icons.Default.Share, contentDescription = null)
                         Spacer(Modifier.width(8.dp))
