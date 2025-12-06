@@ -1,6 +1,10 @@
 package com.example.uqacces
 
 import android.content.Intent
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.Animatable // NOUVEAU
+import androidx.compose.animation.core.VectorConverter // NOUVEAU
+import androidx.compose.animation.core.keyframes // NOUVEAU
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material3.*
@@ -20,8 +23,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import kotlinx.coroutines.launch // NOUVEAU
 
 @Composable
 fun Accueil(
@@ -38,7 +43,34 @@ fun Accueil(
     val universityMapData = UniversityMap.data
     val heading by rememberCompassHeading()
 
+    // --- NOUVELLE LOGIQUE D'ANIMATION DE SECOUSSE ---
+    val coroutineScope = rememberCoroutineScope()
+    // Animatable pour l'offset horizontal (utilise Dp pour une meilleure compatibilité)
+    val shakeOffset = remember { Animatable(0.dp, Dp.VectorConverter) }
+
+    // Fonction pour déclencher l'animation de secousse
+    fun triggerShakeAnimation() {
+        coroutineScope.launch {
+            // Lancer l'animation de secousse : -10dp, +10dp, -8dp, +6dp, puis retour à 0dp
+            shakeOffset.animateTo(
+                targetValue = 0.dp, // La valeur finale est le centre (0dp)
+                animationSpec = keyframes {
+                    durationMillis = 350 // Durée totale de la secousse
+                    0.dp.at(0)
+                    (-10).dp.at(50)    // Gauche
+                    (10).dp.at(100)    // Droite
+                    (-8).dp.at(150)    // Gauche (moins fort)
+                    (6).dp.at(200)     // Droite (moins fort)
+                    (-4).dp.at(250)    // Gauche (très léger)
+                    0.dp.at(350)       // Retour à la position initiale
+                }
+            )
+        }
+    }
+    // --------------------------------------------------
+
     val path = if (startNodeName != null && endNodeName != null) {
+        // ... (Logique path existante)
         remember(universityMapData, startNodeName, endNodeName) {
             val startNode = universityMapData.nodes.find { it.name.equals(startNodeName, ignoreCase = true) }
             val endNode = universityMapData.nodes.find { it.name.equals(endNodeName, ignoreCase = true) }
@@ -52,11 +84,11 @@ fun Accueil(
         emptyList()
     }
 
+    // ... (Logique getDisplayName existante) ...
     fun getDisplayName(nodeName: String?): String {
         if (nodeName == null) return ""
         val node = universityMapData.nodes.find { it.name.equals(nodeName, ignoreCase = true) } ?: return nodeName.replace("Classe ", "")
 
-        // Chercher si c'est le bureau d'un prof
         val professor = universityMapData.professors.find { it.officeNodeId == node.id }
         if (professor != null) {
             val roomName = professor.officeNodeId
@@ -64,13 +96,11 @@ fun Accueil(
             return "${professor.name} ($roomNumber)"
         }
 
-        // Chercher si c'est un point d'intérêt
         val poi = universityMapData.poi.find { it.nodeId == node.id }
         if (poi != null) {
             return poi.name
         }
 
-        // Sinon, retourner le nom du noeud nettoyé
         return nodeName.replace("Classe ", "")
     }
 
@@ -91,11 +121,6 @@ fun Accueil(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    /*FilledTonalButton(onClick = onSettingsClick, shape = RoundedCornerShape(14.dp)) {
-                        Icon(Icons.Default.Settings, contentDescription = null)
-                        Spacer(Modifier.width(8.dp))
-                        Text("Réglages")
-                    }*/
                     FilledTonalButton(
                         onClick = {
                             val text = "Trajet: Départ = $displayStartName → Arrivée = $displayEndName"
@@ -104,7 +129,6 @@ fun Accueil(
                                 putExtra(Intent.EXTRA_TEXT, text)
                             }
                             context.startActivity(Intent.createChooser(intent, "Partager le trajet"))
-
                         },
                         shape = RoundedCornerShape(14.dp),
                         modifier = Modifier.padding(bottom = 40.dp)
@@ -122,16 +146,22 @@ fun Accueil(
             .background(Color.Gray)
             .padding(inner)) {
 
+            // APPEL DE MAPVIEW : Nous passons la fonction de secousse
             MapView(
                 mapData = universityMapData,
                 mapBackground = UniversityMap.background,
                 pathNodeIds = path,
                 debugNodes = debug,
                 heading = heading,
+                onMapInteraction = { triggerShakeAnimation() }, // Secousse au mouvement de carte
                 modifier = Modifier.fillMaxSize()
             )
 
             if (startNodeName == null || endNodeName == null) {
+
+                // MODIFICATION : Appliquer l'offset de secousse à la barre de recherche
+                val offsetModifier = Modifier.offset(x = shakeOffset.value)
+
                 OutlinedTextField(
                     value = TextFieldValue(""),
                     onValueChange = {},
@@ -147,11 +177,15 @@ fun Accueil(
                         .fillMaxWidth(0.80f)
                         .height(60.dp)
                         .clip(RoundedCornerShape(28.dp))
-                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
+                        // MODE JOUR FORCÉ pour la visibilité
+                        .background(Color.White.copy(alpha = 0.95f))
                         .clickable { onSearchClick() }
+                        // APPLICATION DE L'ANIMATION DE SECOUSSE
+                        .then(offsetModifier)
                 )
             } else {
                 Card(
+                    // ... (La logique de Card pour les champs Départ/Arrivée reste inchangée)
                     modifier = Modifier
                         .fillMaxWidth()
                         .statusBarsPadding()
@@ -161,15 +195,15 @@ fun Accueil(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                 ) {
-                    // CHANGEMENT : Utiliser un Row pour aligner les champs (Colonne) et l'icône (Bouton)
+                    // ... (Contenu de la Card inchangé)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically // Assure que le bouton est centré verticalement
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column( // Conteneur pour les deux OutlinedTextFields
-                            modifier = Modifier.weight(1f) // Prend l'espace disponible
+                        Column(
+                            modifier = Modifier.weight(1f)
                         ) {
                             OutlinedTextField(
                                 value = displayStartName,
@@ -194,10 +228,9 @@ fun Accueil(
                             )
                         }
 
-                        // BOUTON D'INVERSION PLACÉ À CÔTÉ (dans le Row)
                         Spacer(Modifier.width(12.dp))
                         IconButton(
-                            onClick = onSwap, // Appel de la fonction pour inverser les valeurs
+                            onClick = onSwap,
                             modifier = Modifier.size(48.dp)
                         ) {
                             Icon(
