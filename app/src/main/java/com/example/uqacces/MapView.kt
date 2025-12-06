@@ -35,6 +35,7 @@ fun MapView(
     pathNodeIds: List<String> = emptyList(),
     heading: Float,
     debugNodes: Boolean = false,
+    onMapInteraction: () -> Unit,
 ) {
     var scale by remember { mutableStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
@@ -48,10 +49,18 @@ fun MapView(
     Canvas(
         modifier = modifier
             .fillMaxSize()
-            .pointerInput(Unit) {
+            .pointerInput(onMapInteraction) {
                 detectTransformGestures { _, pan, zoom, _ ->
                     scale = (scale * zoom).coerceIn(0.5f, 5f)
                     offset += pan
+
+                    val isPanning = pan.x != 0f || pan.y != 0f
+                    val isZooming = zoom != 1f
+
+                    if (isPanning || isZooming) {
+                        // Cet appel déclenche la secousse dans Accueil
+                        onMapInteraction()
+                    }
                 }
             }
     ) {
