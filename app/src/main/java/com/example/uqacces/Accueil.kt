@@ -2,10 +2,12 @@ package com.example.uqacces
 
 import android.content.Intent
 import androidx.compose.animation.Animatable
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable // NOUVEAU
 import androidx.compose.animation.core.VectorConverter // NOUVEAU
 import androidx.compose.animation.core.keyframes // NOUVEAU
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,6 +50,15 @@ fun Accueil(
     // Animatable pour l'offset horizontal (utilise Dp pour une meilleure compatibilité)
     val shakeOffset = remember { Animatable(0.dp, Dp.VectorConverter) }
 
+    val isShaking = shakeOffset.value != shakeOffset.targetValue
+
+    // Définir la couleur du contour et du texte (Rouge si secousse, Gris/Primary sinon)
+    val alertColor by animateColorAsState(
+        targetValue = if (isShaking) Color.Red else Color.Gray, // Utilisez Color.Gray pour la couleur par défaut si pas dans MaterialTheme
+        label = "alertColorAnimation"
+    )
+
+    // Fonction pour déclencher l'animation de secousse
     // Fonction pour déclencher l'animation de secousse
     fun triggerShakeAnimation() {
         coroutineScope.launch {
@@ -162,11 +173,21 @@ fun Accueil(
                 // MODIFICATION : Appliquer l'offset de secousse à la barre de recherche
                 val offsetModifier = Modifier.offset(x = shakeOffset.value)
 
+                val borderModifier = if (isShaking) {
+                    Modifier.border(
+                        width = 2.dp,
+                        color = Color.Red,
+                        shape = RoundedCornerShape(28.dp)
+                    )
+                } else {
+                    Modifier
+                }
+
                 OutlinedTextField(
                     value = TextFieldValue(""),
                     onValueChange = {},
-                    placeholder = { Text("Destination") },
-                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                    placeholder = { Text("Destination", color = alertColor) },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = alertColor) },
                     singleLine = true,
                     shape = RoundedCornerShape(28.dp),
                     enabled = false,
@@ -176,6 +197,7 @@ fun Accueil(
                         .padding(top = 40.dp)
                         .fillMaxWidth(0.80f)
                         .height(60.dp)
+                        .then(borderModifier)
                         .clip(RoundedCornerShape(28.dp))
                         // MODE JOUR FORCÉ pour la visibilité
                         .background(Color.White.copy(alpha = 0.95f))
