@@ -11,12 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 
-/**
- * A composable that displays a compass icon pointing to the current heading.
- *
- * @param heading The current compass heading in degrees (0 to 360), where 0 is North.
- * @param modifier A modifier to be applied to the compass icon.
- */
+
+//Composable qui affiche une boussole qui pointe vers la direction voulue
+ 
 @Composable
 fun CompassView(heading: Float, modifier: Modifier = Modifier) {
     val targetOffset = 325f // L'angle Vers lequel le compas doit pointer
