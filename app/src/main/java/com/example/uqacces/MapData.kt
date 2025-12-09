@@ -226,7 +226,6 @@ object UniversityMap {
                 MapNode("P1_7130", "P1-7130", Offset(117f, 625f), type = "Classe"),
                 MapNode("P1_7140", "P1-7140", Offset(117f, 613f), type = "Classe"),
             ),
-            //pas les bonnes classes, à voir avec les étages
             professors = listOf(
                 Professor("Marie-Alix Autet", "P1_4080"),
                 Professor("Johanne Truchon", "P1_4072"),
@@ -237,8 +236,7 @@ object UniversityMap {
 
 
             edges = listOf(
-                //MapEdge("P1_7120", "P1_7130",5f),MapEdge("P1_7130", "P1_7120",5f),
-                //MapEdge("P1_7130", "P1_7140",2f),MapEdge("P1_7140", "P1_7130",2f),
+
 
                 // Main Corridor Nodes (East-West & North-South spine)
                 MapEdge("ENTREE_OUEST", "C_OUEST_Centre_Entree", 4f),
