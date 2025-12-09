@@ -8,15 +8,9 @@ import android.hardware.SensorManager
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 
-/**
- * A Composable function that remembers the compass heading.
- *
- * This function encapsulates the logic for listening to the device's accelerometer and magnetometer
- * to calculate the compass heading (azimuth). It handles sensor registration and unregistration
- * automatically.
- *
- * @return A State object holding the current heading in degrees (0 to 360), where 0 is North.
- */
+
+ //logique de l'accelerometre et du magnétomètre
+ 
 @Composable
 fun rememberCompassHeading(): State<Float> {
     val isInPreview = androidx.compose.ui.platform.LocalInspectionMode.current
@@ -52,11 +46,11 @@ fun rememberCompassHeading(): State<Float> {
                 if (success) {
                     SensorManager.getOrientation(rotationMatrix, orientationAngles)
                     val azimuth = Math.toDegrees(orientationAngles[0].toDouble()).toFloat()
-                    heading.value = (azimuth + 360) % 360 // Normalize to 0-360
+                    heading.value = (azimuth + 360) % 360 // Normaliser à 0-360
                 }
             }
 
-            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) { /* Not used */ }
+            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {  }
         }
     }
 
