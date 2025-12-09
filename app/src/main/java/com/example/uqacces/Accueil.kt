@@ -59,7 +59,6 @@ fun Accueil(
     )
 
     // Fonction pour déclencher l'animation de secousse
-    // Fonction pour déclencher l'animation de secousse
     fun triggerShakeAnimation() {
         coroutineScope.launch {
             // Lancer l'animation de secousse : -10dp, +10dp, -8dp, +6dp, puis retour à 0dp
@@ -81,7 +80,7 @@ fun Accueil(
     // --------------------------------------------------
 
     val path = if (startNodeName != null && endNodeName != null) {
-        // ... (Logique path existante)
+        // Logique path existante
         remember(universityMapData, startNodeName, endNodeName) {
             val startNode = universityMapData.nodes.find { it.name.equals(startNodeName, ignoreCase = true) }
             val endNode = universityMapData.nodes.find { it.name.equals(endNodeName, ignoreCase = true) }
@@ -95,7 +94,7 @@ fun Accueil(
         emptyList()
     }
 
-    // ... (Logique getDisplayName existante) ...
+    // Logique getDisplayName existante
     fun getDisplayName(nodeName: String?): String {
         if (nodeName == null) return ""
         val node = universityMapData.nodes.find { it.name.equals(nodeName, ignoreCase = true) } ?: return nodeName.replace("Classe ", "")
@@ -170,7 +169,7 @@ fun Accueil(
 
             if (startNodeName == null || endNodeName == null) {
 
-                // MODIFICATION : Appliquer l'offset de secousse à la barre de recherche
+                //Appliquer l'offset de secousse à la barre de recherche
                 val offsetModifier = Modifier.offset(x = shakeOffset.value)
 
                 val borderModifier = if (isShaking) {
@@ -207,7 +206,6 @@ fun Accueil(
                 )
             } else {
                 Card(
-                    // ... (La logique de Card pour les champs Départ/Arrivée reste inchangée)
                     modifier = Modifier
                         .fillMaxWidth()
                         .statusBarsPadding()
@@ -217,7 +215,6 @@ fun Accueil(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                 ) {
-                    // ... (Contenu de la Card inchangé)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
